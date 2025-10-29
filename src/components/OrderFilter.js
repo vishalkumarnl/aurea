@@ -1,10 +1,11 @@
 import React from "react";
 
-const OrderFilter =({ filter, setFilter, search, setSearch }) =>{
+const OrderFilter = ({ filter, setFilter, search, setSearch }) =>{
   return (
     <div
       style={{
         display: "flex",
+        flexWrap: "wrap",
         gap: "10px",
         alignItems: "center",
         marginBottom: "20px",
@@ -17,6 +18,7 @@ const OrderFilter =({ filter, setFilter, search, setSearch }) =>{
         onChange={(e) => setSearch(e.target.value)}
         style={{
           flex: 1,
+          minWidth: "200px",
           padding: "10px",
           borderRadius: "5px",
           border: "1px solid #ccc",

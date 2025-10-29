@@ -46,12 +46,15 @@
 }
 
 .header__optionLineOne {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #f08804;
 }
 
 .header__optionLineTwo {
   font-size: 14px;
   font-weight: 700;
+  color: #f08804;
 }
 
 .header__optionCart {
