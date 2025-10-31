@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import OrderCard from "./components/OrderCard";
-import OrderFilter from "./components/OrderFilter";
+import OrderCard from "./OrderCard";
+import OrderFilter from "./OrderFilter";
 
-const OrdersPage=() =>{
+const Cart=() =>{
   const [orders, setOrders] = useState([
     {
       id: 1,
@@ -180,4 +180,4 @@ const OrdersPage=() =>{
     </div>
   );
 }
-export default OrdersPage;
+export default Cart;

@@ -14,12 +14,17 @@ function Home() {
     navigate("/about");
   };
 
+  const goToProduct = () => {
+    navigate("/productDetail",{state:{id : 1}});
+  };
+
   return (
     <div>
       <h1>Home Page</h1>{
         data?.map(post=>(<li>{post.title}</li>))
       }
       <button onClick={goToAbout}>Go to About</button>
+      <button onClick={goToProduct}>Go to Product</button>
     </div>
   );
 }

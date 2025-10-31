@@ -1,22 +1,23 @@
 // import logo from './logo.svg';
-import './App.css';
-import Header from './Header';
+import Header from 'screens/header';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import About from "./About";
-import Home from "./Home";
-import OrdersPage from "./OrdersPage";
-import AuthForm from './components/AuthForm';
+import About from "screens/about";
+import Home from "screens/home";
+import Cart from "screens/cart";
+import AuthForm from 'screens/login';
+import ProductDetails from 'screens/productDetail';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <Router>
       <Header></Header>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/signIn" element={<AuthForm />} />
-        <Route path="/orders" element={<OrdersPage />} />
+        <Route path="/orders" element={<Cart />} />
+        <Route path="/productDetail" element={<ProductDetails />} />
       </Routes>
     </Router>
     </div>
