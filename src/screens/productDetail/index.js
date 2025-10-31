@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 export default function ProductDetail() {
-const { state } = useLocation();
+  const { state: { id } } = useLocation();
   const navigate = useNavigate();
-  const id =state?.id;
 
   const [product, setProduct] = useState(null);
+  const [productvariants, setProductvariants] = useState(null);
+  useEffect(() => {
+    fetch(`http://localhost:8080/product/${id}`).then(res => res.json()).then(data => setProduct(data));
+    fetch(`http://localhost:8080/productvariants/${id}`).then(res => res.json()).then(data => setProductvariants(data));
+  }, []);
 
-  // ✅ Simulated product data (in real app, fetch from backend)
   const mockProducts = [
     {
       id: 1,
@@ -93,7 +96,7 @@ const { state } = useLocation();
         <h2 style={{ marginBottom: "10px" }}>{product.name}</h2>
         <p style={{ color: "#666", marginBottom: "15px" }}>{product.description}</p>
         <p style={{ fontSize: "24px", fontWeight: "bold", color: "#B12704" }}>
-          ₹{product.price.toLocaleString()}
+          ₹{product.base_price}
         </p>
         <p style={{ color: "#ffa41c" }}>⭐ {product.rating} / 5</p>
 

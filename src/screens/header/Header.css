@@ -3,6 +3,7 @@
   align-items: center;
   background-color: #105921;
   color: white;
+  padding-right: 10px;
 }
 
 .header__logo img {
@@ -26,7 +27,7 @@
 
 .header__searchIcon {
   padding: 10px;
-  background-color: #febd69;
+  background-color: #105921;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
 }
@@ -47,13 +48,13 @@
 .header__optionLineOne {
   font-size: 14px;
   font-weight: 700;
-  color: #f08804;
+  color: #ffffff;
 }
 
 .header__optionLineTwo {
   font-size: 14px;
   font-weight: 700;
-  color: #f08804;
+  color: #ffffff;
 }
 
 .header__optionCart {
@@ -65,5 +66,5 @@
 .header__cartCount {
   margin-left: 5px;
   font-weight: 700;
-  color: #f08804;
+  color: #ffffff;
 }
