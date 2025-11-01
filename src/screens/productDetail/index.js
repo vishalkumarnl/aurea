@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function ProductDetail() {
   const { state: { id } } = useLocation();
   const navigate = useNavigate();
+
+  // const count = useSelector((state) => state.users.data.length);
 
   const [product, setProduct] = useState(null);
   const [productvariants, setProductvariants] = useState(null);

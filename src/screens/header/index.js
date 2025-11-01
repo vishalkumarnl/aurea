@@ -29,12 +29,14 @@ const Header = () => {
 
       {/* Navigation Links */}
       <div className="header__nav">
-        <div className="header__option">
-          <nav>
-            <Link to="/signIn"><span className="header__optionLineOne">Hello, Sign in</span></Link>
-          </nav>
-          <span className="header__optionLineTwo">Account & Lists</span>
-        </div>
+        <nav>
+          <Link to="/signIn">
+            <div className="header__option">
+              <span className="header__optionLineOne">Hello, Sign in</span>
+              <span className="header__optionLineTwo">Account & Lists</span>
+            </div>
+          </Link>
+        </nav>
         <nav>
           <Link to="/orders"><div className="header__option">
             <span className="header__optionLineOne">Returns</span>
