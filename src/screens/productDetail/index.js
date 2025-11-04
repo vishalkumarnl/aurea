@@ -4,49 +4,121 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function ProductDetail() {
-  const { state: { id } } = useLocation();
+  const {
+    state: { id },
+  } = useLocation();
   const navigate = useNavigate();
 
-  // const count = useSelector((state) => state.users.data.length);
+  const productColors =
+    useSelector((state) => state.product?.productColors) || [];
+  const productSizes = useSelector((state) => state.product?.productSize) || [];
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
 
   const [product, setProduct] = useState(null);
-  const [productvariants, setProductvariants] = useState(null);
+  const [productvariants, setProductvariants] = useState([]);
   useEffect(() => {
-    fetch(`http://localhost:8080/product/${id}`).then(res => res.json()).then(data => setProduct(data));
-    fetch(`http://localhost:8080/productvariants/${id}`).then(res => res.json()).then(data => setProductvariants(data));
-  }, []);
-
-  const mockProducts = [
-    {
-      id: 1,
-      name: "Apple iPhone 15",
-      description:
-        "Experience the next level of performance with the Apple iPhone 15 featuring A17 Bionic chip, 6.1-inch OLED display, and stunning camera system.",
-      price: 89999,
-      image:
-        "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1692919800000",
-      rating: 4.8,
-    },
-    {
-      id: 2,
-      name: "Sony WH-1000XM5 Headphones",
-      description:
-        "Industry-leading noise cancellation, 30 hours battery life, and immersive sound quality from Sony.",
-      price: 29999,
-      image:
-        "https://m.media-amazon.com/images/I/61+YY49yV-L._SL1500_.jpg",
-      rating: 4.6,
-    },
-  ];
-
-  useEffect(() => {
-    // Fetch product by ID (mocked)
-    const found = mockProducts.find((p) => p.id === Number(id));
-    setProduct(found);
+    fetch(`http://localhost:8080/product/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setProduct(data);
+      });
+    fetch(`http://localhost:8080/productvariants/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.length) {
+          setProductvariants(data);
+          setSelectedColor(data[0].color_id);
+          setSelectedSize(data[0].size_id);
+        }
+      });
   }, [id]);
 
   if (!product) return <p>Loading product details...</p>;
 
+  const showAvailableColors = () => {
+    const colorIds = productvariants.map((variant) => variant.color_id);
+    const uniqueColorIds = [...new Set(colorIds)];
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        {uniqueColorIds.map((id) => {
+          let tempColor =
+            productColors?.find((item) => item.color_id == id) || {};
+          return (
+            <button
+              style={{
+                marginRight: "5px",
+                borderRadius: "5px",
+                backgroundColor: tempColor.hex_code,
+                height: "5vh",
+                width: "5vh",
+                borderColor: id === selectedColor ? "#19c839ff" : "#000000",
+                borderWidth: id === selectedColor ? "3px" : "1px",
+                borderStyle: "solid",
+              }}
+              key={id}
+              onClick={() => {
+                setSelectedColor(id);
+              }}
+            ></button>
+          );
+        })}
+      </div>
+    );
+  };
+  const showAvailableSizes = () => {
+    const sizeIds = productvariants.map((variant) => variant.size_id);
+    const uniqueSizeIds = [...new Set(sizeIds)];
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+        }}
+      >
+        {uniqueSizeIds.map((id) => {
+          let tempSize = productSizes?.find((item) => item.size_id == id) || {};
+          return (
+            <button
+              onClick={() => {
+                setSelectedSize(id);
+              }}
+              style={{
+                marginRight: "5px",
+                borderRadius: "5px",
+                height: "5vh",
+                width: "5vh",
+                borderColor: id === selectedSize ? "#19c839ff" : "#000000ff",
+                borderWidth: id === selectedSize ? "3px" : "1px",
+                borderStyle: "solid",
+              }}
+              key={id}
+            >
+              {tempSize.name}
+            </button>
+          );
+        })}
+      </div>
+    );
+  };
+  const getPriceByColorAndSize = () => {
+    const match = productvariants.find(
+      (v) => v.color_id === selectedColor && v.size_id === selectedSize
+    );
+    return match ? `₹${match.price}` : "Out Of Stock";
+  };
+
+  const getImages = () => {
+    const match = productvariants.find(
+      (v) => v.color_id === selectedColor
+    );
+    return match ? match.image_url?.split(" ") : [];
+  };
   const handleAddToCart = () => {
     alert(`Added "${product.name}" to cart.`);
   };
@@ -72,18 +144,24 @@ export default function ProductDetail() {
           flex: "1 1 300px",
           display: "flex",
           justifyContent: "center",
+          flexDirection: "column",
           alignItems: "center",
           backgroundColor: "#fff",
           padding: "20px",
           borderRadius: "10px",
           boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
         }}
-      >
-        <img
-          src={product.image}
+      >{
+        getImages()?.map(item =>{
+          let logo = `images/${item}.png`
+          return (<img
+          src={logo}
           alt={product.name}
-          style={{ maxWidth: "100%", height: "auto", borderRadius: "8px" }}
-        />
+          style={{ width: "150px", height: "auto", borderRadius: "8px" }}
+        />)
+        })
+      }
+        
       </div>
 
       {/* Right: Details */}
@@ -97,12 +175,15 @@ export default function ProductDetail() {
         }}
       >
         <h2 style={{ marginBottom: "10px" }}>{product.name}</h2>
-        <p style={{ color: "#666", marginBottom: "15px" }}>{product.description}</p>
+        <p style={{ color: "#666", marginBottom: "15px" }}>
+          {product.description}
+        </p>
         <p style={{ fontSize: "24px", fontWeight: "bold", color: "#B12704" }}>
-          ₹{product.base_price}
+          {getPriceByColorAndSize()}
         </p>
         <p style={{ color: "#ffa41c" }}>⭐ {product.rating} / 5</p>
-
+        <div style={{ marginBottom: "10px" }}>{showAvailableColors()}</div>
+        {showAvailableSizes()}
         <div style={{ marginTop: "20px", display: "flex", gap: "15px" }}>
           <button
             onClick={handleAddToCart}
