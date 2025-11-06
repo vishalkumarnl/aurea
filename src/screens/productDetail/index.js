@@ -48,7 +48,7 @@ export default function ProductDetail() {
       >
         {uniqueColorIds.map((id) => {
           let tempColor =
-            productColors?.find((item) => item.color_id == id) || {};
+            productColors?.find((item) => item.color_id === id) || {};
           return (
             <button
               style={{
@@ -82,7 +82,7 @@ export default function ProductDetail() {
         }}
       >
         {uniqueSizeIds.map((id) => {
-          let tempSize = productSizes?.find((item) => item.size_id == id) || {};
+          let tempSize = productSizes?.find((item) => item.size_id ===id) || {};
           return (
             <button
               onClick={() => {

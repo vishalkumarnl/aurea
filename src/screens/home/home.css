@@ -7,28 +7,10 @@ body {
   background-color: #f4f4f4;
 }
 
-/* Header Section */
-header {
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  text-align: center;
-}
-
-header nav a {
-  color: #fff;
-  margin: 0 15px;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-header nav a:hover {
-  text-decoration: underline;
-}
 
 /* Hero Section Style */
 .hero {
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c7/Mount-Everest.jpg'); /* Replace with actual image URL */
+  /* background-image: url('/images/aureadBannerOrder.png');Replace with actual image URL */
   background-size: cover;
   background-position: center;
   height: 400px;
@@ -105,3 +87,46 @@ footer {
   text-align: center;
   margin-top: 30px;
 }
+
+.product-grid {
+  display: grid;
+  gap: 16px; /* Space between products */
+  margin: auto;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  padding: 16px;
+}
+
+/* Product card styling */
+.product {
+  background-color: #f4f4f4;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+/* Media queries to control max 4 per row */
+@media (min-width: 1200px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

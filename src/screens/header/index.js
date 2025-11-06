@@ -3,23 +3,24 @@ import React from "react";
 import "./Header.css"; // We'll define styles here
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="header">
       {/* Logo */}
-      <nav>
-        <Link to="/"><div className="header__logo">
+      <Link to="/">
+        <div className="header__logo">
           <img
-            src="./images/logo.png"
+            src="./images/aurea_logo.png"
             height={42}
             width={42}
             alt="Aurea Logo"
           />
-        </div></Link>
-      </nav>
-
+        </div>
+      </Link>
 
       {/* Search Bar */}
       <div className="header__search">
@@ -29,26 +30,46 @@ const Header = () => {
 
       {/* Navigation Links */}
       <div className="header__nav">
-        <nav>
-          <Link to="/signIn">
-            <div className="header__option">
-              <span className="header__optionLineOne">Hello, Sign in</span>
-              <span className="header__optionLineTwo">Account & Lists</span>
-            </div>
-          </Link>
-        </nav>
-        <nav>
-          <Link to="/orders"><div className="header__option">
+        <button
+          style={{
+            background: "transparent",
+            "padding-inline": "0px",
+            "border-width": "0px",
+          }}
+          onClick={() => navigate("/signIn")}
+        >
+          <div className="header__option">
+            <span className="header__optionLineOne">Hello, Sign in</span>
+            <span className="header__optionLineTwo">Account & Lists</span>
+          </div>
+        </button>
+        <button
+          style={{
+            background: "transparent",
+            "padding-inline": "0px",
+            "border-width": "0px",
+          }}
+          onClick={() => navigate("/orders")}
+        >
+          <div className="header__option">
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
-          </div></Link>
-        </nav>
+          </div>
+        </button>
 
-        <Link to="/cart"><div className="header__optionCart">
-          <FaShoppingCart />
-          <span className="header__optionLineTwo header__cartCount">0</span>
-        </div>
-        </Link>
+        <button
+          style={{
+            background: "transparent",
+            "padding-inline": "0px",
+            "border-width": "0px",
+          }}
+          onClick={() => navigate("/cart")}
+        >
+          <div className="header__optionCart">
+            <FaShoppingCart />
+            <span className="header__optionLineTwo header__cartCount">0</span>
+          </div>
+        </button>
       </div>
     </header>
   );
