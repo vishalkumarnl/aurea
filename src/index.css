@@ -17,5 +17,6 @@ code {
   margin: 0;
   display: flex;
   flex-direction: column;
+  background-color: #fff5f5;
   min-height: 100vh;   /* Ensure full screen height */
 }

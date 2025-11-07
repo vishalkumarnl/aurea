@@ -33,8 +33,8 @@ const Header = () => {
         <button
           style={{
             background: "transparent",
-            "padding-inline": "0px",
-            "border-width": "0px",
+            "paddingInline": "0px",
+            "borderWidth": "0px",
           }}
           onClick={() => navigate("/signIn")}
         >
@@ -46,8 +46,8 @@ const Header = () => {
         <button
           style={{
             background: "transparent",
-            "padding-inline": "0px",
-            "border-width": "0px",
+            "paddingInline": "0px",
+            "borderWidth": "0px",
           }}
           onClick={() => navigate("/orders")}
         >
@@ -60,8 +60,8 @@ const Header = () => {
         <button
           style={{
             background: "transparent",
-            "padding-inline": "0px",
-            "border-width": "0px",
+            "paddingInline": "0px",
+            "borderEidth": "0px",
           }}
           onClick={() => navigate("/cart")}
         >

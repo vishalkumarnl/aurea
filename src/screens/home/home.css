@@ -7,7 +7,6 @@ body {
   background-color: #f4f4f4;
 }
 
-
 /* Hero Section Style */
 .hero {
   /* background-image: url('/images/aureadBannerOrder.png');Replace with actual image URL */
@@ -38,18 +37,9 @@ body {
   gap: 20px;
 }
 
-.product {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 250px;
-  text-align: center;
-}
-
 .product img {
   width: 100%;
-  height: 230px;
+  aspect-ratio: 1;
   object-fit: cover; /* ensures images fill area nicely */
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
@@ -61,7 +51,7 @@ body {
 }
 
 .product-info {
-  padding: 15px;
+  text-align: left;
 }
 
 .product-info h3 {
@@ -76,6 +66,11 @@ body {
 .product-info .price {
   font-size: 22px;
   font-weight: bold;
+  color: #333;
+}
+
+.product-info .product-name {
+  font-size: 18px;
   color: #333;
 }
 
@@ -94,39 +89,43 @@ footer {
   margin: auto;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   padding: 16px;
+  margin-left: 100px;
+  margin-right: 100px;
 }
 
 /* Product card styling */
 .product {
-  background-color: #f4f4f4;
-  padding: 20px;
-  text-align: center;
+  background-color: white;
   border-radius: 8px;
-  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  border-width: 0px;
+  cursor: pointer;
 }
-
 /* Media queries to control max 4 per row */
 @media (min-width: 1200px) {
   .product-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media (min-width: 900px) and (max-width: 1199px) {
   .product-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (min-width: 600px) and (max-width: 899px) {
   .product-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 599px) {
   .product-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
   }
 }
-

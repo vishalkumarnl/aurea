@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./home.css"; // Importing CSS file for styles
 import { useNavigate } from "react-router-dom";
-import Carousel from './Carousel';
+import Carousel from 'components/Carousel';
+import CachedImage from "components/CachedImage";
+import { useSelector } from "react-redux";
 
 const images = [
-  '/images/banner2.png',
-  '/images/banner.png'
+  '/images/banner.png',
+  '/images/banner1.png'
 ];
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const productSizes = useSelector((state) => state.product?.productSize) || [];
 
   const [productvariants, setProductvariants] = useState([]);
 
@@ -33,18 +36,21 @@ const HomePage = () => {
       <div className="product-grid">
         {productvariants.map((product, index) => {
           const images = product.image_url?.split(" ") || [];
-          const logo = `images/${images?.[0]}.png`
+          const logo = `images/${images?.[0]}.png`;
+          const weight_size = productSizes.find(
+      (v) => v.size_id === product.size_id
+    )?.name ||"";
           return(
           <button
             onClick={() => nevigateProductPage(product)}
             className="product"
             key={index}
           >
-            <img src={logo} alt={product.name} />
+            <CachedImage src={logo} alt={product.name} />
             <div className="product-info">
-              <h3>{product.name}</h3>
-              <p>Category: {product.category}</p>
-              <p className="price">{product.price}</p>
+              <p className="product-name">{product.name}</p>
+              <p>{weight_size}</p>
+              <p className="price">₹{product.price}</p>
             </div>
           </button>
         )})}
