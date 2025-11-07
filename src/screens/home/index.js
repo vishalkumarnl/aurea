@@ -48,10 +48,11 @@ const HomePage = () => {
           >
             <CachedImage src={logo} alt={product.name} />
             <div className="product-info">
-              <p className="product-name">{product.name}</p>
-              <p>{weight_size}</p>
+              <div className="product-name">{product.name}</div>
+              <div>{weight_size}</div>
               <p className="price">₹{product.price}</p>
             </div>
+            <button>Add to cart</button>
           </button>
         )})}
       </div>

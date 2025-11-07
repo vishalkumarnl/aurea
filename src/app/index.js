@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import Header from 'screens/header';
+import Footer from 'screens/footer';
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import About from "screens/about";
@@ -10,7 +11,6 @@ import Orders from 'screens/orders';
 import ProductDetails from 'screens/productDetail';
 import { useDispatch } from "react-redux";
 import { setProductColors, setProductSize } from 'store/productSlice';
-import "./app.css"; // Importing CSS file for styles
 import { ItemsProvider } from "context/itemsContext";
 
 
@@ -37,11 +37,7 @@ const dispatch = useDispatch();
         <Route path="/orders" element={<Orders />} />
         <Route path="/productDetail" element={<ProductDetails />} />
       </Routes>
-      {/* Footer Section */}
-      {/* <footer style={{"background": "#222",color: "white",padding: "15px 0"}}>Footer at bottom</footer> */}
-      
-      <img src="/images/footer1.png" className='imgP'></img>
-       <img src="/images/footer.png" className='imgP'></img>
+      <Footer></Footer>
     </Router>
     </div>
     </ItemsProvider>
