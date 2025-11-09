@@ -4,9 +4,12 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function ProductDetail() {
-  const {
-    state: { id },
-  } = useLocation();
+  // const {
+  //   state: { id },
+  // } = useLocation();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("id");
   const navigate = useNavigate();
 
   const productColors =
