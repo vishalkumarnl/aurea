@@ -51,6 +51,8 @@ body {
 }
 
 .product-info {
+  display: flex;
+  flex-direction: column;
   text-align: left;
 }
 
@@ -69,8 +71,8 @@ body {
   color: #333;
 }
 
-.product-info .product-name {
-  font-size: 18px;
+.product-name {
+  font-size: 16px;
   margin-top: 10px;
   color: #333;
 }
@@ -100,7 +102,7 @@ footer {
   border-radius: 8px;
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   overflow: hidden;
-
+  width: "193px";
   border-radius: 8px;
   text-align: center;
   border-width: 0px;

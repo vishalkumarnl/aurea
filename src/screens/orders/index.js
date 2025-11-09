@@ -109,11 +109,11 @@ import React from "react";
 import { useItems } from "context/itemsContext";
 
 export default function Products() {
-  const { items, addItem } = useItems();
+  const { items, addItem } = useItems(); 
 
   return (
     <div>
-      <h2>Products Page</h2>
+      <h2>Order Page</h2>
       <button onClick={() => addItem(`Item ${Date.now()}`)}>
         Add Product
       </button>

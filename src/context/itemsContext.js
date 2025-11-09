@@ -29,6 +29,9 @@ export function ItemsProvider({ children }) {
   }, []);
 
   const addItem = (item) => {
+    //selected: false,
+    //date: "2025-10-20",
+    //quantity: 1
     const newList = [...items, item];
     setItems(newList);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newList));
@@ -36,9 +39,11 @@ export function ItemsProvider({ children }) {
     // Notify other tabs
     channelRef.current.postMessage({ type: "SYNC_ITEMS", payload: newList });
   };
-
+const getItems= ()=>{
+  return localStorage.getItem(STORAGE_KEY);
+};
   return (
-    <ItemsContext.Provider value={{ items, addItem }}>
+    <ItemsContext.Provider value={{ items, addItem, getItems }}>
       {children}
     </ItemsContext.Provider>
   );

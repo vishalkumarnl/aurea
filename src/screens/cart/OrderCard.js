@@ -24,7 +24,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
 
       <img
         src={order.image}
-        alt={order.productName}
+        alt={order.name}
         style={{
           width: "100px",
           height: "100px",
@@ -35,7 +35,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
       />
 
       <div style={{ flex: 1, minWidth: "200px" }}>
-        <h3 style={{ margin: "0 0 5px 0" }}>{order.productName}</h3>
+        <h3 style={{ margin: "0 0 5px 0" }}>{order.name}</h3>
         <p style={{ margin: "4px 0" }}>Order Date: {order.date}</p>
         <p style={{ margin: "4px 0" }}>Status: {order.status}</p>
 
@@ -81,7 +81,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
       {/* Price + Remove */}
       <div style={{ textAlign: "right", minWidth: "120px" }}>
         <p style={{ fontWeight: "bold" }}>
-          ₹{(order.price * order.quantity).toLocaleString()}
+          ₹{(Number(order.price) * order.quantity).toLocaleString()}
         </p>
         <button
           onClick={() => removeItem(order.id)}

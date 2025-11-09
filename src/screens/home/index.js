@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Carousel from "components/Carousel";
 import CachedImage from "components/CachedImage";
 import { useSelector } from "react-redux";
+import { useItems } from "context/itemsContext";
 
 const images = ["/images/banner.png", "/images/banner1.png"];
 
@@ -12,6 +13,7 @@ const HomePage = () => {
   const productSizes = useSelector((state) => state.product?.productSize) || [];
 
   const [productvariants, setProductvariants] = useState([]);
+  // localStorage.clear();
 
   useEffect(() => {
     fetch(`http://localhost:8080/allProductvariants`)
@@ -29,10 +31,11 @@ const HomePage = () => {
     navigate(`/productDetail?id=${product?.product_id}`);
   };
 
-  const nevigateCart = (product) => {
+  const onAddCartClick = (product) => {
     navigate("/cart");
+    addItem(product)
   };
-
+const { addItem } = useItems(); 
   return (
     <div className="homepage">
       <Carousel images={images} />
@@ -49,6 +52,7 @@ const HomePage = () => {
               style={{
                 position: "relative",
                 padding: "20px",
+                width: "175px"
               }}
               className="product"
             >
@@ -65,13 +69,14 @@ const HomePage = () => {
                 </div>
               </button>
               <button
-                onClick={() => navigate("/cart")}
+                onClick={()=>onAddCartClick(product)}
+                
                 style={{
                   position: "absolute",
-                  bottom: "15px", // vertically center relative to bottom button
+                  bottom: "5px", // vertically center relative to bottom button
                   left: "50%", // horizontally center relative to bottom button
                   transform: "translate(-50%, -50%)", // perfect centering
-                  backgroundColor: "#e94e77",
+                  backgroundColor: "#0c5936ff",
                   color: "white",
                   fontSize: "16px",
                   border: "none",

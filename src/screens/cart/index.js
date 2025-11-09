@@ -1,40 +1,12 @@
 import React, { useState } from "react";
 import OrderCard from "./OrderCard";
 import OrderFilter from "./OrderFilter";
+import { useItems } from "context/itemsContext";
 
 const Cart=() =>{
-  const [orders, setOrders] = useState([
-    {
-      id: 1,
-      productName: "Apple iPhone 15",
-      date: "2025-10-20",
-      price: 89999,
-      status: "Delivered",
-      quantity: 1,
-      selected: false,
-      image: "https://via.placeholder.com/150?text=iPhone+15",
-    },
-    {
-      id: 2,
-      productName: "Samsung Galaxy S24 Ultra",
-      date: "2025-09-15",
-      price: 129999,
-      status: "Shipped",
-      quantity: 2,
-      selected: false,
-      image: "https://via.placeholder.com/150?text=Galaxy+S24+Ultra",
-    },
-    {
-      id: 3,
-      productName: "Sony WH-1000XM5 Headphones",
-      date: "2025-08-10",
-      price: 29999,
-      status: "Delivered",
-      quantity: 1,
-      selected: false,
-      image: "https://via.placeholder.com/150?text=Sony+XM5",
-    },
-  ]);
+
+  const {items} =useItems();
+  const [orders, setOrders] = useState(items);
 
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
@@ -71,7 +43,7 @@ const Cart=() =>{
 
   // ✅ Filter and search logic
   const filteredOrders = orders.filter((order) => {
-    const matchesSearch = order.productName
+    const matchesSearch = order.name
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesStatus = filter === "All" || order.status === filter;
