@@ -1,13 +1,18 @@
 // Header.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Header.css"; // We'll define styles here
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useItems } from "context/itemsContext";
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const { items } = useItems();
+  const [cartItems, setCartItems] = useState(items);
+  useEffect(() => {
+    setCartItems(items);
+  }, [items]);
   return (
     <header className="header">
       {/* Logo */}
@@ -33,8 +38,8 @@ const Header = () => {
         <button
           style={{
             background: "transparent",
-            "paddingInline": "0px",
-            "borderWidth": "0px",
+            paddingInline: "0px",
+            borderWidth: "0px",
           }}
           onClick={() => navigate("/signIn")}
         >
@@ -46,8 +51,8 @@ const Header = () => {
         <button
           style={{
             background: "transparent",
-            "paddingInline": "0px",
-            "borderWidth": "0px",
+            paddingInline: "0px",
+            borderWidth: "0px",
           }}
           onClick={() => navigate("/orders")}
         >
@@ -60,14 +65,16 @@ const Header = () => {
         <button
           style={{
             background: "transparent",
-            "paddingInline": "0px",
-            "borderEidth": "0px",
+            paddingInline: "0px",
+            borderEidth: "0px",
           }}
           onClick={() => navigate("/cart")}
         >
           <div className="header__optionCart">
             <FaShoppingCart />
-            <span className="header__optionLineTwo header__cartCount">0</span>
+            <span className="header__optionLineTwo header__cartCount">
+              {cartItems.length}
+            </span>
           </div>
         </button>
       </div>

@@ -74,6 +74,7 @@ export function ItemsProvider({ children }) {
     if (index !== -1) {
       items.splice(index, 1); // Remove element at that index
     }
+     setItems(items);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
 
     // ✅ Notify other tabs
