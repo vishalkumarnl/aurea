@@ -5,33 +5,36 @@ import { useItems } from "context/itemsContext";
 
 const Cart=() =>{
 
-  const {items} =useItems();
-  const [orders, setOrders] = useState(items);
+  const {items, addItem, removeProduct} =useItems();
+  const [orders, setOrders] = useState(items || []);
 
   const [filter, setFilter] = useState("All");
   const [search, setSearch] = useState("");
 
   // ✅ Quantity update
-  const updateQuantity = (id, delta) => {
+  const updateQuantity = (item, delta) => {
+
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order.id === id
+        order.variant_id === item.variant_id
           ? { ...order, quantity: Math.max(1, order.quantity + delta) }
           : order
       )
     );
+    addItem(item,delta);
   };
 
   // ✅ Remove item
-  const removeItem = (id) => {
-    setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
+  const removeItem = (variant_id) => {
+    setOrders((prevOrders) => prevOrders.filter((order) => order.variant_id !== variant_id));
+    removeProduct(variant_id);
   };
 
   // ✅ Toggle selection
-  const toggleSelect = (id) => {
+  const toggleSelect = (variant_id) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order.id === id ? { ...order, selected: !order.selected } : order
+        order.variant_id === variant_id ? { ...order, selected: !order.selected } : order
       )
     );
   };

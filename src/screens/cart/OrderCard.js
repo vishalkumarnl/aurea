@@ -18,12 +18,12 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
       <input
         type="checkbox"
         checked={order.selected}
-        onChange={() => toggleSelect(order.id)}
+        onChange={() => toggleSelect(order.variant_id)}
         style={{ marginRight: "10px" }}
       />
 
       <img
-        src={order.image}
+        src={order.image_url}
         alt={order.name}
         style={{
           width: "100px",
@@ -37,7 +37,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
       <div style={{ flex: 1, minWidth: "200px" }}>
         <h3 style={{ margin: "0 0 5px 0" }}>{order.name}</h3>
         <p style={{ margin: "4px 0" }}>Order Date: {order.date}</p>
-        <p style={{ margin: "4px 0" }}>Status: {order.status}</p>
+        <p style={{ margin: "4px 0" }}>Size: {order.size}</p>
 
         {/* Quantity Controls */}
         <div
@@ -49,7 +49,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
           }}
         >
           <button
-            onClick={() => updateQuantity(order.id, -1)}
+            onClick={() => updateQuantity(order, -1)}
             style={{
               width: "30px",
               height: "30px",
@@ -63,7 +63,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
           </button>
           <span>{order.quantity}</span>
           <button
-            onClick={() => updateQuantity(order.id, 1)}
+            onClick={() => updateQuantity(order, 1)}
             style={{
               width: "30px",
               height: "30px",
@@ -84,7 +84,7 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
           ₹{(Number(order.price) * order.quantity).toLocaleString()}
         </p>
         <button
-          onClick={() => removeItem(order.id)}
+          onClick={() => removeItem(order.variant_id)}
           style={{
             backgroundColor: "#ff4d4f",
             color: "#fff",
