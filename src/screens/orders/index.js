@@ -107,18 +107,12 @@
 
 import React from "react";
 import { useItems } from "context/itemsContext";
+import AddressManager from "components/AddressManage"
 
 export default function Products() {
   const { items, addItem } = useItems(); 
 
   return (
-    <div>
-      <h2>Order Page</h2>
-      <button onClick={() => addItem(`Item ${Date.now()}`)}>
-        Add Product
-      </button>
-
-      <p>Total items: {items.length}</p>
-    </div>
+    <AddressManager></AddressManager>
   );
 }
