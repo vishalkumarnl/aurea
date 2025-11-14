@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import CartCard from "./CartCard";
-import CartFilter from "./CartFilter";
 import { useItems } from "context/itemsContext";
 
-const Cart=() =>{
-
-  const {items, addItem, removeProduct} =useItems();
+const Cart = () => {
+  const { items, addItem, removeProduct } = useItems();
   const [orders, setOrders] = useState(items || []);
-
-  const [filter, setFilter] = useState("All");
-  const [search, setSearch] = useState("");
 
   // ✅ Quantity update
   const updateQuantity = (item, delta) => {
-
+    const tempItem = orders.find(
+      (order) => order.variant_id === item.variant_id
+    );
+    if (delta < 0 && tempItem?.quantity === 1) {
+      return;
+    }
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
         order.variant_id === item.variant_id
@@ -21,12 +21,14 @@ const Cart=() =>{
           : order
       )
     );
-    addItem(item,delta);
+    addItem(item, delta);
   };
 
   // ✅ Remove item
   const removeItem = (variant_id) => {
-    setOrders((prevOrders) => prevOrders.filter((order) => order.variant_id !== variant_id));
+    setOrders((prevOrders) =>
+      prevOrders.filter((order) => order.variant_id !== variant_id)
+    );
     removeProduct(variant_id);
   };
 
@@ -34,27 +36,22 @@ const Cart=() =>{
   const toggleSelect = (variant_id) => {
     setOrders((prevOrders) =>
       prevOrders.map((order) =>
-        order.variant_id === variant_id ? { ...order, selected: !order.selected } : order
+        order.variant_id === variant_id
+          ? { ...order, selected: !order.selected }
+          : order
       )
     );
   };
 
   // ✅ Select / Deselect All
   const toggleSelectAll = (checked) => {
-    setOrders((prevOrders) => prevOrders.map((o) => ({ ...o, selected: checked })));
+    setOrders((prevOrders) =>
+      prevOrders.map((o) => ({ ...o, selected: checked }))
+    );
   };
 
-  // ✅ Filter and search logic
-  const filteredOrders = orders.filter((order) => {
-    const matchesSearch = order.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesStatus = filter === "All" || order.status === filter;
-    return matchesSearch && matchesStatus;
-  });
-
   // ✅ Compute total for selected items
-  const totalSelected = filteredOrders
+  const totalSelected = orders
     .filter((order) => order.selected)
     .reduce((sum, order) => sum + order.price * order.quantity, 0);
 
@@ -67,14 +64,16 @@ const Cart=() =>{
     }
 
     alert(
-      `Proceeding to payment for ${selectedItems.length} item(s) — Total ₹${totalSelected.toLocaleString()}`
+      `Proceeding to payment for ${
+        selectedItems.length
+      } item(s) — Total ₹${totalSelected.toLocaleString()}`
     );
 
     // You could navigate to a payment page here
     // navigate("/checkout", { state: { selectedItems } });
   };
 
-  const allSelected = filteredOrders.every((order) => order.selected);
+  const allSelected = orders.every((order) => order.selected);
 
   return (
     <div
@@ -86,15 +85,7 @@ const Cart=() =>{
     >
       <h2>Your Cart</h2>
 
-      <CartFilter
-        filter={filter}
-        setFilter={setFilter}
-        search={search}
-        setSearch={setSearch}
-      />
-
-      {/* ✅ Select All */}
-      {filteredOrders.length > 0 && (
+      {orders.length > 0 && (
         <div style={{ marginBottom: "10px" }}>
           <label>
             <input
@@ -108,11 +99,11 @@ const Cart=() =>{
       )}
 
       {/* 🧩 Order Cards */}
-      {filteredOrders.length > 0 ? (
-        filteredOrders.map((order) => (
+      {orders.length > 0 ? (
+        orders.map((product) => (
           <CartCard
-            key={order.id}
-            order={order}
+            key={product.id}
+            product={product}
             updateQuantity={updateQuantity}
             removeItem={removeItem}
             toggleSelect={toggleSelect}
@@ -123,7 +114,7 @@ const Cart=() =>{
       )}
 
       {/* 💰 Checkout Summary */}
-      {filteredOrders.length > 0 && (
+      {orders.length > 0 && (
         <div
           style={{
             marginTop: "20px",
@@ -154,5 +145,5 @@ const Cart=() =>{
       )}
     </div>
   );
-}
+};
 export default Cart;
