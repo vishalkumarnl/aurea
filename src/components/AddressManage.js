@@ -3,10 +3,9 @@ import React, { useState, useEffect } from "react";
 const STORAGE_KEY = "user_addresses";
 
 const AddressManager = () => {
-  const [addresses, setAddresses] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [addresses, setAddresses] = useState([]);
+  const [formVisible, setFormVisible] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -17,68 +16,97 @@ const AddressManager = () => {
     city: "",
     state: "",
     landmark: "",
-    altPhone: "",
     type: "Home",
   });
 
-  // ✅ Handle input change
+  // Load saved addresses from localStorage
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) setAddresses(JSON.parse(stored));
+  }, []);
+
+  // Save to localStorage
+  const saveToStorage = (data) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  };
+
+  // Handle input changes
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Use current location and reverse geocode
-  const handleUseCurrentLocation = () => {
+  // Use current location and fill address fields
+  const useCurrentLocation = async () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+      alert("Geolocation not supported");
       return;
     }
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        try {
-          const response = await fetch(
-            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=en`
-          );
-          const data = await response.json();
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const { latitude, longitude } = pos.coords;
 
-          const address = data.address || {};
-          setForm((prev) => ({
-            ...prev,
-            address: data.display_name || "",
-            city:
-              address.city ||
-              address.town ||
-              address.village ||
-              address.county ||
-              "",
-            state: address.state || "",
-            pincode: address.postcode || "",
-            locality: address.suburb || address.neighbourhood || "",
-          }));
-        } catch (err) {
-          console.error(err);
-          alert("Unable to fetch address details.");
-        }
-      },
-      (error) => {
-        console.error(error);
-        alert("Unable to get your location.");
-      }
-    );
+      const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1&accept-language=en`;
+
+      const res = await fetch(url, {
+        headers: {
+          "User-Agent": "my-react-app",
+          "Referer": window.location.origin,
+        },
+      });
+
+      const data = await res.json();
+      const addr = data.address || {};
+
+      setForm((prev) => ({
+        ...prev,
+        pincode: addr.postcode || "",
+        locality: addr.suburb || addr.village || "",
+        address: data.display_name || "",
+        city: addr.city || addr.town || addr.village || "",
+        state: addr.state || "",
+      }));
+    });
   };
 
-  // ✅ Save address
+  // Save or update address
   const handleSave = () => {
-    if (!form.name || !form.phone || !form.address) {
-      alert("Please fill in required fields.");
+    if (!form.name || !form.phone) {
+      alert("Name and phone number are required");
       return;
     }
 
-    const updated = [...addresses, form];
-    setAddresses(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    let updatedAddresses;
+    if (editingIndex !== null) {
+      updatedAddresses = addresses.map((addr, i) =>
+        i === editingIndex ? form : addr
+      );
+      setEditingIndex(null);
+    } else {
+      updatedAddresses = [...addresses, form];
+    }
 
+    setAddresses(updatedAddresses);
+    saveToStorage(updatedAddresses);
+    resetForm();
+  };
+
+  // Edit existing address
+  const handleEdit = (index) => {
+    setForm(addresses[index]);
+    setEditingIndex(index);
+    setFormVisible(true);
+  };
+
+  // Delete an address
+  const handleDelete = (index) => {
+    const updated = addresses.filter((_, i) => i !== index);
+    setAddresses(updated);
+    saveToStorage(updated);
+  };
+
+  // Reset form fields
+  const resetForm = () => {
     setForm({
       name: "",
       phone: "",
@@ -88,208 +116,162 @@ const AddressManager = () => {
       city: "",
       state: "",
       landmark: "",
-      altPhone: "",
       type: "Home",
     });
-  };
-
-  // ✅ Delete address
-  const handleDelete = (index) => {
-    const updated = addresses.filter((_, i) => i !== index);
-    setAddresses(updated);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    setFormVisible(false);
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "700px", margin: "auto" }}>
-      <h3>Add a New Address</h3>
+    <div style={{ padding: "30px", maxWidth: "700px", margin: "auto" }}>
+      <h2 style={{ color: "#1a73e8" }}>Manage Addresses</h2>
 
-      <button
-        onClick={handleUseCurrentLocation}
-        style={{
-          background: "#e6f2ff",
-          border: "1px solid #007bff",
-          borderRadius: "8px",
-          padding: "10px",
-          marginBottom: "15px",
-          cursor: "pointer",
-        }}
-      >
-        📍 Use My Current Location
-      </button>
-
-      <div className="form">
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            name="name"
-            placeholder="Name"
-            value={form.name}
-            onChange={handleChange}
-          />
-          <input
-            name="phone"
-            placeholder="10-digit mobile number"
-            value={form.phone}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            name="pincode"
-            placeholder="Pincode"
-            value={form.pincode}
-            onChange={handleChange}
-          />
-          <input
-            name="locality"
-            placeholder="Locality"
-            value={form.locality}
-            onChange={handleChange}
-          />
-        </div>
-
-        <textarea
-          name="address"
-          placeholder="Address (Area and Street)"
-          value={form.address}
-          onChange={handleChange}
-          rows="2"
-          style={{ width: "100%", marginTop: "10px" }}
-        />
-
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            name="city"
-            placeholder="City/District/Town"
-            value={form.city}
-            onChange={handleChange}
-          />
-          <input
-            name="state"
-            placeholder="State"
-            value={form.state}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div style={{ display: "flex", gap: "10px" }}>
-          <input
-            name="landmark"
-            placeholder="Landmark (Optional)"
-            value={form.landmark}
-            onChange={handleChange}
-          />
-          <input
-            name="altPhone"
-            placeholder="Alternate Phone (Optional)"
-            value={form.altPhone}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div style={{ margin: "10px 0" }}>
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="Home"
-              checked={form.type === "Home"}
-              onChange={handleChange}
-            />{" "}
-            Home
-          </label>{" "}
-          <label>
-            <input
-              type="radio"
-              name="type"
-              value="Work"
-              checked={form.type === "Work"}
-              onChange={handleChange}
-            />{" "}
-            Work
-          </label>
-        </div>
-
+      {/* Add New Address Button */}
+      {!formVisible && (
         <button
-          onClick={handleSave}
+          onClick={() => setFormVisible(true)}
           style={{
-            background: "#007bff",
-            color: "#fff",
+            background: "#1a73e8",
+            color: "white",
             border: "none",
-            borderRadius: "6px",
             padding: "10px 20px",
-            marginRight: "10px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            marginBottom: "20px",
           }}
         >
-          Save
+          ➕ Add a New Address
         </button>
-        <button
-          onClick={() =>
-            setForm({
-              name: "",
-              phone: "",
-              pincode: "",
-              locality: "",
-              address: "",
-              city: "",
-              state: "",
-              landmark: "",
-              altPhone: "",
-              type: "Home",
-            })
-          }
+      )}
+
+      {/* Address Form */}
+      {formVisible && (
+        <div
           style={{
-            background: "#ddd",
-            border: "none",
-            borderRadius: "6px",
-            padding: "10px 20px",
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            marginBottom: "30px",
           }}
         >
-          Cancel
-        </button>
-      </div>
+          <h3>{editingIndex !== null ? "Edit Address" : "New Address"}</h3>
 
-      <hr style={{ margin: "30px 0" }} />
-
-      <h4>Saved Addresses</h4>
-      {addresses.length === 0 ? (
-        <p>No addresses saved yet.</p>
-      ) : (
-        addresses.map((addr, index) => (
-          <div
-            key={index}
+          <button
+            onClick={useCurrentLocation}
             style={{
-              background: "#fff",
-              border: "1px solid #ccc",
-              borderRadius: "8px",
-              padding: "10px",
+              background: "#34a853",
+              color: "white",
+              border: "none",
+              padding: "8px 12px",
+              borderRadius: "6px",
               marginBottom: "10px",
+              cursor: "pointer",
             }}
           >
-            <div style={{ fontWeight: "bold" }}>{addr.type.toUpperCase()}</div>
+            📍 Use My Current Location
+          </button>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+            <input name="name" placeholder="Full Name" value={form.name} onChange={handleChange} />
+            <input name="phone" placeholder="Mobile Number" value={form.phone} onChange={handleChange} />
+            <input name="pincode" placeholder="Pincode" value={form.pincode} onChange={handleChange} />
+            <input name="locality" placeholder="Locality" value={form.locality} onChange={handleChange} />
+            <textarea
+              name="address"
+              placeholder="Address (Area and Street)"
+              value={form.address}
+              onChange={handleChange}
+            />
+            <input name="city" placeholder="City / Town" value={form.city} onChange={handleChange} />
+            <input name="state" placeholder="State" value={form.state} onChange={handleChange} />
+            <input name="landmark" placeholder="Landmark (Optional)" value={form.landmark} onChange={handleChange} />
+
             <div>
-              {addr.name} — {addr.phone}
+              <label>
+                <input
+                  type="radio"
+                  name="type"
+                  value="Home"
+                  checked={form.type === "Home"}
+                  onChange={handleChange}
+                />
+                Home
+              </label>
+              <label style={{ marginLeft: "15px" }}>
+                <input
+                  type="radio"
+                  name="type"
+                  value="Work"
+                  checked={form.type === "Work"}
+                  onChange={handleChange}
+                />
+                Work
+              </label>
             </div>
-            <div>
-              {addr.address}, {addr.city}, {addr.state} — {addr.pincode}
+
+            <div style={{ marginTop: "10px" }}>
+              <button
+                onClick={handleSave}
+                style={{
+                  background: "#1a73e8",
+                  color: "#fff",
+                  border: "none",
+                  padding: "10px 20px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+              >
+                {editingIndex !== null ? "Update Address" : "Save Address"}
+              </button>
+              <button
+                onClick={resetForm}
+                style={{
+                  background: "#ccc",
+                  color: "#000",
+                  border: "none",
+                  padding: "10px 20px",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                }}
+              >
+                Cancel
+              </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Saved Addresses */}
+      <h3>Saved Addresses</h3>
+      {addresses.length === 0 && <p>No saved addresses yet.</p>}
+
+      {addresses.map((addr, i) => (
+        <div
+          key={i}
+          style={{
+            background: "#fff",
+            padding: "15px",
+            borderRadius: "10px",
+            marginTop: "10px",
+            boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+          }}
+        >
+          <b>{addr.type}</b> — {addr.name} ({addr.phone})
+          <br />
+          {addr.address}, {addr.city}, {addr.state} - {addr.pincode}
+          {addr.landmark && <div>Landmark: {addr.landmark}</div>}
+          <div style={{ marginTop: "8px" }}>
+            <button onClick={() => handleEdit(i)}>✏️ Edit</button>
             <button
-              onClick={() => handleDelete(index)}
-              style={{
-                marginTop: "8px",
-                background: "transparent",
-                border: "1px solid red",
-                color: "red",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
+              onClick={() => handleDelete(i)}
+              style={{ marginLeft: "10px", color: "red" }}
             >
-              Delete
+              🗑️ Delete
             </button>
           </div>
-        ))
-      )}
+        </div>
+      ))}
     </div>
   );
 };

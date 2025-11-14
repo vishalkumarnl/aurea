@@ -12,6 +12,7 @@ import ProductDetails from 'screens/productDetail';
 import { useDispatch } from "react-redux";
 import { setProductColors, setProductSize } from 'store/productSlice';
 import { ItemsProvider } from "context/itemsContext";
+import Profile from 'screens/profile';
 
 
 function App() {
@@ -36,6 +37,7 @@ const dispatch = useDispatch();
         <Route path="/cart" element={<Cart />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/productDetail" element={<ProductDetails />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <Footer></Footer>
     </Router>

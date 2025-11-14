@@ -5,6 +5,7 @@ import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useItems } from "context/itemsContext";
+import MenuDropdown from "components/MenuDropdown"; 
 
 const Header = () => {
   const navigate = useNavigate();
@@ -36,11 +37,6 @@ const Header = () => {
       {/* Navigation Links */}
       <div className="header__nav">
         <button
-          style={{
-            background: "transparent",
-            paddingInline: "0px",
-            borderWidth: "0px",
-          }}
           onClick={() => navigate("/signIn")}
         >
           <div className="header__option">
@@ -61,7 +57,7 @@ const Header = () => {
             <span className="header__optionLineTwo">& Orders</span>
           </div>
         </button>
-
+        <MenuDropdown />
         <button
           style={{
             background: "transparent",

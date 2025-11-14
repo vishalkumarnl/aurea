@@ -24,55 +24,51 @@ const Footer = () => {
 
     // Gmail compose URL format
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`;
-    
+
     window.open(gmailUrl, "_blank");
   };
 
   return (
     <>
       {/* Footer Section */}
-      <img src="/images/footer.png" className="imgP"></img>
-      <img src="/images/footer1.png" className="imgP"></img>
       <footer
         style={{
-          backgroundColor: "#111",
-          color: "#f1f1f1",
-          padding: "40px 20px",
+          backgroundImage: `url("/images/footer.png")`,
           textAlign: "center",
-          lineHeight: "1.8",
+          width: "100%",
+          backgroundSize: "cover" /* show whole image */,
+          // backgroundRepeat: "no-repeat" /* avoid repeating */,
+          // backgroundPosition: "center" /* center image */,
         }}
       >
-        <h3 style={{ color: "#00ffcc", marginBottom: "10px" }}>
+        <h3 style={{ color: "#2142b8ff", marginBottom: "10px" }}>
           Aurea Organic
         </h3>
 
         {/* Phone */}
         <p>
-          <FaPhoneAlt style={{ color: "#00ffcc", marginRight: "6px" }} />
-          <a
+          <FaPhoneAlt style={{ color: "#2142b8ff", marginRight: "6px" }} />
+          <button
             href={`tel:${phone}`}
             style={{
-              color: "#00ffcc",
+              color: "#2142b8ff",
               textDecoration: "none",
               fontWeight: "bold",
             }}
           >
             {phone}
-          </a>
+          </button>
         </p>
 
         {/* Email */}
         <p>
-          <FaEnvelope style={{ color: "#00ffcc", marginRight: "6px" }} />
+          <FaEnvelope style={{ color: "#2142b8ff", marginRight: "6px" }} />
           <button
             onClick={handleClick}
             style={{
-              padding: "10px 20px",
-              backgroundColor: "#1a73e8",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
+              color: "#2142b8ff",
+              textDecoration: "none",
+              fontWeight: "bold",
             }}
           >
             {email}
@@ -81,13 +77,13 @@ const Footer = () => {
 
         {/* Address */}
         <p>
-          <FaMapMarkerAlt style={{ color: "#00ffcc", marginRight: "6px" }} />
+          <FaMapMarkerAlt style={{ color: "#2142b8ff", marginRight: "6px" }} />
           <a
             href={mapLink}
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              color: "#00ffcc",
+              color: "#2142b8ff",
               textDecoration: "none",
               fontWeight: "bold",
             }}
@@ -127,9 +123,8 @@ const Footer = () => {
           </a>
         </div>
 
-        <p style={{ fontSize: "0.9rem", color: "#888", marginTop: "20px" }}>
-          © {new Date().getFullYear()} Aurea Organic. All rights
-          reserved.
+        <p style={{ fontSize: "0.9rem", color: "blue", marginTop: "20px" }}>
+          © {new Date().getFullYear()} Aurea Organic. All rights reserved.
         </p>
       </footer>
       <FloatingWhatsApp />
