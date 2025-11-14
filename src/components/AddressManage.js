@@ -122,7 +122,7 @@ const AddressManager = () => {
   };
 
   return (
-    <div style={{ padding: "30px", maxWidth: "700px", margin: "auto" }}>
+    <div style={{ paddingLeft: "30px"}}>
       <h2 style={{ color: "#1a73e8" }}>Manage Addresses</h2>
 
       {/* Add New Address Button */}

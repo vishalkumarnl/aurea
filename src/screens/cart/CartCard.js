@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import dayjs from 'dayjs';
 
-const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
+const CartCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
   const date = dayjs(order.date);
   const productSizes = useSelector((state) => state.product?.productSize) || [];
   const images = order.image_url?.split(" ") || [];
@@ -44,7 +44,6 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
 
       <div style={{ flex: 1, minWidth: "200px" }}>
         <h3 style={{ margin: "0 0 5px 0" }}>{order.name}</h3>
-        <p style={{ margin: "4px 0" }}>Order Date: {date.format('DD/MM/YYYY')}</p>
         <p style={{ margin: "4px 0" }}>Size: {weight_size}</p>
 
         {/* Quantity Controls */}
@@ -109,4 +108,4 @@ const OrderCard = ({ order, updateQuantity, removeItem, toggleSelect }) => {
   );
 };
 
-export default OrderCard;
+export default CartCard;

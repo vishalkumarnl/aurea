@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import OrderCard from "./OrderCard";
-import OrderFilter from "./OrderFilter";
+import CartCard from "./CartCard";
+import CartFilter from "./CartFilter";
 import { useItems } from "context/itemsContext";
 
 const Cart=() =>{
@@ -86,7 +86,7 @@ const Cart=() =>{
     >
       <h2>Your Cart</h2>
 
-      <OrderFilter
+      <CartFilter
         filter={filter}
         setFilter={setFilter}
         search={search}
@@ -110,7 +110,7 @@ const Cart=() =>{
       {/* 🧩 Order Cards */}
       {filteredOrders.length > 0 ? (
         filteredOrders.map((order) => (
-          <OrderCard
+          <CartCard
             key={order.id}
             order={order}
             updateQuantity={updateQuantity}

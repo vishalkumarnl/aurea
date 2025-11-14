@@ -14,7 +14,6 @@ import { setProductColors, setProductSize } from 'store/productSlice';
 import { ItemsProvider } from "context/itemsContext";
 import Profile from 'screens/profile';
 
-
 function App() {
 const dispatch = useDispatch();
   useEffect(() => {
