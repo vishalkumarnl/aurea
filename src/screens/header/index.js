@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useItems } from "context/itemsContext";
 import MenuDropdown from "components/MenuDropdown"; 
 
-const Header = () => {
+const Header = ({setShowLogin}) => {
   const navigate = useNavigate();
   const { items } = useItems();
   const [cartItems, setCartItems] = useState(items);
@@ -37,7 +37,10 @@ const Header = () => {
       {/* Navigation Links */}
       <div className="header__nav">
         <button
-          onClick={() => navigate("/signIn")}
+          onClick={() => {
+            // navigate("/signIn")
+            setShowLogin(true);
+          }}
         >
           <div className="header__option">
             <span className="header__optionLineOne">Hello, Sign in</span>
