@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useItems } from "context/itemsContext";
 import MenuDropdown from "components/MenuDropdown"; 
 
-const Header = ({setShowLogin}) => {
+const Header = ({ setShowLogin }) => {
   const navigate = useNavigate();
   const { items } = useItems();
   const [cartItems, setCartItems] = useState(items);
@@ -33,10 +33,10 @@ const Header = ({setShowLogin}) => {
         <input type="text" className="header__searchInput" />
         <FaSearch className="header__searchIcon" />
       </div>
-
+      <MenuDropdown />
       {/* Navigation Links */}
       <div className="header__nav">
-        <button
+       <button
           onClick={() => {
             // navigate("/signIn")
             setShowLogin(true);
@@ -47,25 +47,18 @@ const Header = ({setShowLogin}) => {
             <span className="header__optionLineTwo">Account & Lists</span>
           </div>
         </button>
-        <button
-          style={{
-            background: "transparent",
-            paddingInline: "0px",
-            borderWidth: "0px",
-          }}
-          onClick={() => navigate("/orders")}
-        >
+        <button onClick={() => navigate("/orders")}>
           <div className="header__option">
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
           </div>
         </button>
-        <MenuDropdown />
+       
         <button
           style={{
             background: "transparent",
             paddingInline: "0px",
-            borderEidth: "0px",
+            borderWidth: "0px",
           }}
           onClick={() => navigate("/cart")}
         >

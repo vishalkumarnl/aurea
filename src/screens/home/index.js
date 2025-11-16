@@ -51,8 +51,7 @@ const { addItem } = useItems();
             <div
               style={{
                 position: "relative",
-                padding: "20px",
-                width: "175px"
+                padding: "20px 20px 30px 20px",
               }}
               className="product"
             >
@@ -73,20 +72,21 @@ const { addItem } = useItems();
                 
                 style={{
                   position: "absolute",
-                  bottom: "5px", // vertically center relative to bottom button
+                  bottom: "-8px", // vertically center relative to bottom button
                   left: "50%", // horizontally center relative to bottom button
                   transform: "translate(-50%, -50%)", // perfect centering
                   backgroundColor: "#0c5936ff",
                   color: "white",
-                  fontSize: "16px",
+                  fontSize: "26px",
                   border: "none",
                   borderRadius: "8px",
                   width: "auto",
                   cursor: "pointer",
+                  padding: "5px 10px",
                   zIndex: 2, // Higher layer
                 }}
               >
-                Add to Cart
+                +
               </button>
             </div>
           );

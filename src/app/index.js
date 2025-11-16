@@ -32,9 +32,9 @@ function App() {
   });
   return (
     <ItemsProvider>
-      <div style={{ height: "95%" }}>
-        <Router>
-          <Header setShowLogin={setShowLogin} />
+      <Router>
+        <Header setShowLogin={setShowLogin} />
+        <div style={{ height: "95%", paddingTop: "60px" }}>
           {showLogin && <LoginModal onClose={() => setShowLogin(false)} />}
           <Routes>
             <Route path="/" element={<Home />} />
@@ -46,8 +46,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
           </Routes>
           <Footer></Footer>
-        </Router>
-      </div>
+        </div>
+      </Router>
     </ItemsProvider>
   );
 }

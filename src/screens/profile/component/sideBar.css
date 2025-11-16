@@ -8,7 +8,11 @@
   font-family: Arial, sans-serif;
   height: 100vh;
 }
-
+@media (max-width: 800px) {
+  .sidebar {
+   order:2
+  }
+}
 .user-header {
   display: flex;
   align-items: center;
@@ -136,4 +140,9 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+/* Sidebar responsiveness */
+@media (max-width: 900px) {
+  .sidebar { width: 100%; height: auto; position: relative; border-right: none; }
 }

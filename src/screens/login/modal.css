@@ -13,10 +13,12 @@
 
 .modal-box {
   width: 650px;
+  max-width: 95vw;
   height: 420px;
+  max-height: 90vh;
   background: white;
   display: flex;
-  border-radius: 4px;
+  border-radius: 6px;
   position: relative;
   overflow: hidden;
 }
@@ -108,4 +110,20 @@
 .resend span {
   color: #2874f0;
   cursor: pointer;
+}
+
+/* Modal responsive behavior */
+@media (max-width: 800px) {
+  .modal-box { flex-direction: column; height: auto; }
+  .left-pane, .right-pane { width: 100%; padding: 20px; }
+  .left-pane { order: 1; }
+  .right-pane { order: 2; }
+  .side-image { width: 70%; margin-top: 20px; }
+}
+
+@media (max-width: 420px) {
+  .modal-box { padding: 8px; }
+  .left-pane { padding: 16px; }
+  .right-pane { padding: 16px; }
+  .otp-input { width: 36px; height: 40px; }
 }

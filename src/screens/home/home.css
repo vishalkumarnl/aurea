@@ -43,6 +43,12 @@ body {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
+/* Ensure images have a consistent block and height so cards align */
+.product .product-thumb {
+  width: 100%;
+  overflow: hidden;
+}
+
 /* Subtle zoom-in effect on hover */
 .product:hover img {
   transform: scale(1.05);
@@ -89,8 +95,9 @@ footer {
   margin: auto;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   padding: 16px;
-  margin-left: 100px;
-  margin-right: 100px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Product card styling */
@@ -99,11 +106,36 @@ footer {
   border-radius: 8px;
   /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
   overflow: hidden;
-  width: "193px";
+  width: 100%;
   border-radius: 8px;
   text-align: center;
   border-width: 0px;
   cursor: pointer;
+}
+/* Inner content spacing */
+.product .card-content {
+  padding: 12px 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+/* Product image height adjustments for different breakpoints */
+@media (min-width: 1200px) {
+  .product .product-thumb img { height: 260px; }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .product .product-thumb img { height: 220px; }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .product .product-thumb img { height: 200px; }
+}
+
+@media (max-width: 599px) {
+  .product .product-thumb img { height: 160px; }
 }
 /* Media queries to control max 4 per row */
 @media (min-width: 1200px) {
@@ -126,6 +158,15 @@ footer {
 
 @media (max-width: 599px) {
   .product-grid {
-    grid-template-columns: 2fr;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 12px;
   }
+  .hero { height: 260px; }
+  .hero h1 { font-size: 28px; }
+}
+
+@media (max-width: 380px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .hero { height: 220px; }
+  .hero p { font-size: 14px; }
 }
