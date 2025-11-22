@@ -1,13 +1,15 @@
 // Header.js
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Header.css"; // We'll define styles here
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useItems } from "context/itemsContext";
 import MenuDropdown from "components/MenuDropdown"; 
-
+import { AuthContext } from "context/authContext";
 const Header = ({ setShowLogin }) => {
+
+   const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
   const { items } = useItems();
   const [cartItems, setCartItems] = useState(items);
@@ -33,10 +35,10 @@ const Header = ({ setShowLogin }) => {
         <input type="text" className="header__searchInput" />
         <FaSearch className="header__searchIcon" />
       </div>
-      <MenuDropdown />
+      {user &&<MenuDropdown />}
       {/* Navigation Links */}
       <div className="header__nav">
-       <button
+       {!user &&(<button
           onClick={() => {
             // navigate("/signIn")
             setShowLogin(true);
@@ -46,7 +48,7 @@ const Header = ({ setShowLogin }) => {
             <span className="header__optionLineOne">Hello, Sign in</span>
             <span className="header__optionLineTwo">Account & Lists</span>
           </div>
-        </button>
+        </button>)}
         <button onClick={() => navigate("/orders")}>
           <div className="header__option">
             <span className="header__optionLineOne">Returns</span>

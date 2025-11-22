@@ -46,14 +46,7 @@ const AddressManager = () => {
     navigator.geolocation.getCurrentPosition(async (pos) => {
       const { latitude, longitude } = pos.coords;
 
-      const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1&accept-language=en`;
-
-      const res = await fetch(url, {
-        headers: {
-          "User-Agent": "my-react-app",
-          "Referer": window.location.origin,
-        },
-      });
+      const res = await fetch(`http://localhost:8080/api/reverse?lat=${latitude}&lon=${longitude}`);
 
       const data = await res.json();
       const addr = data.address || {};

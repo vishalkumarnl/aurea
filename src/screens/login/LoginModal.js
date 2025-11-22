@@ -1,34 +1,92 @@
-import React, { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useContext, useState } from "react";
 import "./modal.css";
 import { useNavigate } from "react-router-dom";
-import OTPInput from "./otpInput";
-import {isMobile} from "utils/index"
+import api from "api/axios";
+import Login from "./component/login";
+import OtpVerification from "./component/otpVerification";
+import UserRegistration from "./component/userRegistration";
+import { AuthContext } from "context/authContext";
+
 
 const LoginModal = ({ onClose }) => {
   const [step, setStep] = useState("login"); // login | otp
   const [mobile, setMobile] = useState("");
-  const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isRegister, setIregister] = useState(true);
+  const { login} = useContext(AuthContext);
+  
+  const [otp, setOtp] = useState("");
   const navigate = useNavigate();
 
-  const handleRequestOtp = () => {
-    // if (mobile.length === 10) {
+
+  const isValidMobile = (mobile) => {
+    return /^[6-9]\d{9}$/.test(mobile);
+  };
+
+  const sendOtp = async () => {
+     if (!isValidMobile(mobile)) {
+      console.log("Please enter a valid 10-digit mobile number.");
+      return;
+    }
     setStep("otp");
-    // }
-  };
-  const isMobileSys = isMobile();
+    try {
+      const res = await fetch("http://localhost:8080/requestOtp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mobile: mobile,
+        }),
+      });
 
-  const handleHomePage = () => {
-    onClose();
-    navigate("/");
-  };
-  const verifYOtp = () => {
-    setStep("register");
+      const data = await res.json();
+      console.log("Response:", data);
+    } catch (err) {
+      console.error("Error:", err);
+    }
   };
 
+  const verifYOtp = async () => {
+    try {
+      const res = await fetch("http://localhost:8080/verifyOtp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          mobile: mobile,
+          otp,
+        }),
+      });
+
+      const data = await res.json();
+      console.log("Response:", data);
+      if (res.ok) {
+        setStep("register");
+        console.log("OTP verification successful!");
+      } else {
+        console.log(data.message || "Something went wrong!");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+
+  
+
+  const loginUser = async ({email, password,}) => {
+    try {
+      login( { email, password, mobile });
+
+
+
+        onClose();
+
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  };
+  
   return (
     <div className="modal-overlay">
       <div className="modal-box">
@@ -37,130 +95,32 @@ const LoginModal = ({ onClose }) => {
         </button>
 
         {/* LEFT PANE */}
-        {!isMobileSys &&<div className="left-pane">
-          <h2>{isLogin ? "Login" : "Looks like you're new here!"}</h2>
-          <p>
-            {isLogin
-              ? "Get access to your Orders, Wishlist and Recommendations"
-              : "Sign up with your mobile number to get started"}
-          </p>
-          <img
-            src="/images/loginImg.png"
-            alt="illustration"
-            className="side-image"
-          />
-        </div>}
+          <div className="left-pane">
+            <h2>{isLogin ? "Login" : "Looks like you're new here!"}</h2>
+            <p>
+              {isLogin
+                ? "Get access to your Orders, Wishlist and Recommendations"
+                : "Sign up with your mobile number to get started"}
+            </p>
+            <img
+              src="/images/loginImg.png"
+              alt="illustration"
+              className="side-image"
+            />
+          </div>
 
         {/* RIGHT PANE */}
         <div className="right-pane">
           {step === "login" && (
-            <>
-              <input
-                type="text"
-                maxLength={10}
-                pattern="\d{10}"
-                value={mobile}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (/^\d*$/.test(val)) {
-                    // allow only numbers
-                    setMobile(val);
-                  }
-                }}
-                className="input-box"
-                placeholder="Enter mobile number"
-              />
-              {isLogin && (
-                <div style={{ position: "relative" }}>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                    }}
-                    className="input-box"
-                  />
-
-                  {/* Eye icon inside input */}
-                  <span
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{
-                      position: "absolute",
-                      right: "0px",
-                      top: "38%",
-                      transform: "translateY(-50%)",
-                      cursor: "pointer",
-                      color: "#555",
-                    }}
-                  >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
-                  </span>
-                </div>
-              )}
-
-              <button
-                className="primary-btn"
-                onClick={isLogin ? handleHomePage : handleRequestOtp}
-              >
-                {isLogin ? "Login" : "Sign Up"}
-              </button>
-              <p>
-                {isLogin
-                  ? "Don't have an account?"
-                  : "Already have an account?"}{" "}
-                <span
-                  className="toggle-link"
-                  onClick={() => setIsLogin(!isLogin)}
-                >
-                  {isLogin ? "Sign Up" : "Login"}
-                </span>
-              </p>
-            </>
+            <Login mobile={mobile} setMobile={setMobile} isLogin={isLogin} setIsLogin={setIsLogin} sendOtp={sendOtp} loginUser={loginUser}></Login>
           )}
 
           {step === "otp" && (
-            <>
-              <p className="otp-info">
-                Please enter the OTP sent to <strong>{mobile}</strong>
-              </p>
-
-              {/* <div className="otp-boxes">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <input key={i} maxLength="1" className="otp-input" />
-                ))}
-              </div> */}
-              <OTPInput></OTPInput>
-
-              <button className="primary-btn" onClick={verifYOtp}>
-                Verify
-              </button>
-
-              <p className="resend">
-                Not received the code? <span>Resend</span>
-              </p>
-            </>
+            <OtpVerification mobile={mobile} setOtp={setOtp} verifYOtp={verifYOtp}></OtpVerification>
           )}
 
           {step === "register" && (
-            <>
-              <p className="otp-info">namae</p>
-
-              <div className="otp-boxes">password</div>
-
-              <button className="primary-btn">Register</button>
-              <p>
-                {isRegister
-                  ? "Already have an account?"
-                  : "Already have an account?"}{" "}
-                <span
-                  className="toggle-link"
-                  onClick={() => setIsLogin(!isLogin)}
-                >
-                  {isRegister ? "Login" : "Sign Up"}
-                </span>
-              </p>
-            </>
+           <UserRegistration mobile={mobile} setIsLogin={setIsLogin} loginUser={loginUser}></UserRegistration>
           )}
         </div>
       </div>

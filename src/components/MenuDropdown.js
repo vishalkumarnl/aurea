@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaUserCircle, FaGift, FaBell, FaPowerOff } from "react-icons/fa";
 import { MdFlashOn, MdCardGiftcard } from "react-icons/md";
 import { AiFillHeart } from "react-icons/ai";
 import { BsTicketPerforated, BsBag } from "react-icons/bs";
 import "./MenuDropdown.css";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "context/authContext";
 
 const MenuDropdown = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { user, loading,logout } = useContext(AuthContext);
 
   return (
     <div
@@ -17,7 +19,7 @@ const MenuDropdown = () => {
       onMouseLeave={() => setOpen(false)}
     >
       <div className="menu-button">
-        Kumari <span className="arrow">▼</span>
+        {user?.email} <span className="arrow">▼</span>
       </div>
 
       {open && (
@@ -55,7 +57,7 @@ const MenuDropdown = () => {
             <FaBell /> Notifications
           </div>
 
-          <div className="menu-item logout">
+          <div className="menu-item logout" onClick={logout}>
             <FaPowerOff /> Logout
           </div>
         </div>

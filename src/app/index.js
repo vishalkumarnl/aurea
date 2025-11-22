@@ -14,10 +14,15 @@ import { setProductColors, setProductSize } from "store/productSlice";
 import { ItemsProvider } from "context/itemsContext";
 import Profile from "screens/profile";
 import LoginModal from "screens/login/LoginModal";
+import api from "api/axios";
+import { AuthProvider } from "context/authContext";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
+  const [user, setUser] = useState({});
   const dispatch = useDispatch();
+    // Check login when app loads
+
   useEffect(() => {
     fetch(`http://localhost:8080/sizes`)
       .then((res) => res.json())
@@ -31,6 +36,7 @@ function App() {
       });
   });
   return (
+    <AuthProvider>
     <ItemsProvider>
       <Router>
         <Header setShowLogin={setShowLogin} />
@@ -49,6 +55,7 @@ function App() {
         </div>
       </Router>
     </ItemsProvider>
+    </AuthProvider>
   );
 }
 

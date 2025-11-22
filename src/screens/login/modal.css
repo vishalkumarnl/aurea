@@ -118,12 +118,17 @@
   .left-pane, .right-pane { width: 100%; padding: 20px; }
   .left-pane { order: 1; }
   .right-pane { order: 2; }
-  .side-image { width: 70%; margin-top: 20px; }
+  .side-image { width: 40%; display: block;
+  margin-left: auto;
+  margin-right: auto; }
 }
 
 @media (max-width: 420px) {
   .modal-box { padding: 8px; }
   .left-pane { padding: 16px; }
   .right-pane { padding: 16px; }
+  .side-image { width: 40%; display: block;
+  margin-left: auto;
+  margin-right: auto; }
   .otp-input { width: 36px; height: 40px; }
 }
