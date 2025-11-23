@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./sideBar.css";
 import {
   FiUser,
@@ -14,9 +14,11 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "context/authContext";
 
 export default function SideBar({section, setSection}) {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   return (
     <aside className="sidebar">
@@ -25,7 +27,7 @@ export default function SideBar({section, setSection}) {
         <div className="avatar"></div>
         <div className="user-info">
           <p className="greet">Hello,</p>
-          <p className="username">Kumari Sanjula</p>
+          <p className="username">{user.name}</p>
         </div>
       </div>
 

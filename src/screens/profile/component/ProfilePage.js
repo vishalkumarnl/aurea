@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../index.css";
+import { AuthContext } from "context/authContext";
 
 export default function ProfilePage() {
+  const { user } = useContext(AuthContext);
   return (
     <main className="content">
       <div className="section-title">
@@ -10,8 +12,7 @@ export default function ProfilePage() {
       </div>
 
       <div className="input-row">
-        <input type="text" placeholder="Kumari" />
-        <input type="text" placeholder="Sanjula" />
+        <input type="text" value={user?.name}/>
       </div>
 
       <p className="label">Your Gender</p>
@@ -28,13 +29,13 @@ export default function ProfilePage() {
         <h3>Email Address</h3>
         <span className="edit-btn">Edit</span>
       </div>
-      <input className="full-input" type="text" />
+      <input className="full-input" type="text" value={user.email}/>
 
       <div className="section-title small-top">
         <h3>Mobile Number</h3>
         <span className="edit-btn">Edit</span>
       </div>
-      <input className="full-input" type="text" placeholder="+919279712075" />
+      <input className="full-input" type="text" value={user.mobile} />
 
       <h3 className="faq-title">FAQs</h3>
 

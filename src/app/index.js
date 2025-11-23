@@ -9,17 +9,18 @@ import Cart from "screens/cart";
 import AuthForm from "screens/login";
 import Orders from "screens/orders";
 import ProductDetails from "screens/productDetail";
+import Product from "screens/Product";
 import { useDispatch } from "react-redux";
 import { setProductColors, setProductSize } from "store/productSlice";
 import { ItemsProvider } from "context/itemsContext";
 import Profile from "screens/profile";
 import LoginModal from "screens/login/LoginModal";
-import api from "api/axios";
 import { AuthProvider } from "context/authContext";
+import ReviewForm from "components/ReviewForm";
+import OrderTe from "screens/OrderTe";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
-  const [user, setUser] = useState({});
   const dispatch = useDispatch();
     // Check login when app loads
 
@@ -50,6 +51,9 @@ function App() {
             <Route path="/orders" element={<Orders />} />
             <Route path="/productDetail" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/product" element={<Product />} />
+            <Route path="/review" element={<ReviewForm />} />
+            <Route path="/orderte" element={<OrderTe/>} />
           </Routes>
           <Footer></Footer>
         </div>

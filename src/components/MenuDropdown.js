@@ -19,7 +19,7 @@ const MenuDropdown = () => {
       onMouseLeave={() => setOpen(false)}
     >
       <div className="menu-button">
-        {user?.email} <span className="arrow">▼</span>
+        {user?.name} <span className="arrow">▼</span>
       </div>
 
       {open && (
@@ -28,7 +28,7 @@ const MenuDropdown = () => {
             <FaUserCircle /> My Profile
           </div>
 
-          <div className="menu-item">
+          <div className="menu-item" onClick={()=> navigate("/product")}>
             <MdFlashOn /> SuperCoin Zone
           </div>
 
