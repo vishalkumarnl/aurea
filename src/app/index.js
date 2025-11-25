@@ -7,9 +7,7 @@ import About from "screens/about";
 import Home from "screens/home";
 import Cart from "screens/cart";
 import AuthForm from "screens/login";
-import Orders from "screens/orders";
 import ProductDetails from "screens/productDetail";
-import Product from "screens/Product";
 import { useDispatch } from "react-redux";
 import { setProductColors, setProductSize } from "store/productSlice";
 import { ItemsProvider } from "context/itemsContext";
@@ -17,7 +15,8 @@ import Profile from "screens/profile";
 import LoginModal from "screens/login/LoginModal";
 import { AuthProvider } from "context/authContext";
 import ReviewForm from "components/ReviewForm";
-import OrderTe from "screens/OrderTe";
+import OrderDetailsPage from "screens/orders/OrderDetails";
+import OrderHistory from "screens/orders/OrderHistory";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -48,12 +47,11 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/signIn" element={<AuthForm />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders" element={<OrderHistory />} />
             <Route path="/productDetail" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/product" element={<Product />} />
             <Route path="/review" element={<ReviewForm />} />
-            <Route path="/orderte" element={<OrderTe/>} />
+            <Route path="/orders/:id" element={<OrderDetailsPage />} />
           </Routes>
           <Footer></Footer>
         </div>

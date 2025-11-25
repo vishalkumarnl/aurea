@@ -87,7 +87,7 @@
 }
 
 .buyBtn {
-  background: #007bff;
+  background: linear-gradient(90deg, #2e7d32, #1b5e20);
   padding: 12px 24px;
   color: white;
   border: none;
@@ -97,7 +97,7 @@
 }
 
 .buyBtn:hover {
-  background: #0056c7;
+  background: #3ee628;
 }
 
 .specTable {
