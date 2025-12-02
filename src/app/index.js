@@ -14,6 +14,7 @@ import { ItemsProvider } from "context/itemsContext";
 import Profile from "screens/profile";
 import LoginModal from "screens/login/LoginModal";
 import { AuthProvider } from "context/authContext";
+import ProtectedRoute from "context/protectedRoute";
 import ReviewForm from "components/ReviewForm";
 import OrderDetailsPage from "screens/orders/OrderDetails";
 import OrderHistory from "screens/orders/OrderHistory";
@@ -47,9 +48,9 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/signIn" element={<AuthForm />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
             <Route path="/productDetail" element={<ProductDetails />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/review" element={<ReviewForm />} />
             <Route path="/orders/:id" element={<OrderDetailsPage />} />
           </Routes>

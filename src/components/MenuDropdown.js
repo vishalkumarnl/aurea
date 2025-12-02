@@ -12,6 +12,11 @@ const MenuDropdown = () => {
   const navigate = useNavigate();
   const { user, loading,logout } = useContext(AuthContext);
 
+  const logoutPage = async () => {
+    await logout();
+    navigate("/");
+  }
+
   return (
     <div
       className="menu-container"
@@ -57,7 +62,7 @@ const MenuDropdown = () => {
             <FaBell /> Notifications
           </div>
 
-          <div className="menu-item logout" onClick={logout}>
+          <div className="menu-item logout" onClick={logoutPage}>
             <FaPowerOff /> Logout
           </div>
         </div>

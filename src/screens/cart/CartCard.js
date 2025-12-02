@@ -9,8 +9,8 @@ const CartCard = ({ product, updateQuantity, removeItem, toggleSelect }) => {
   };
 
   const productSizes = useSelector((state) => state.product?.productSize) || [];
-  const images = product.image_url?.split(" ") || [];
-  const logo = `images/${images?.[0]}.png`;
+  const images = product.images?.split(" ") || [];
+  const logo = images[0];
   const weight_size =
     productSizes.find((v) => v.size_id === product.size_id)?.name || "";
   return (

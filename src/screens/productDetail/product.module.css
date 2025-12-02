@@ -16,6 +16,7 @@
 .mainImageWrapper {
   width: 450px;
   height: 450px;
+  border-radius: 15px;
   border: 1px solid #ddd;
   overflow: hidden;
   position: relative;
@@ -32,7 +33,7 @@
 .zoomLens {
   width: 100px;
   height: 100px;
-  border: 2px solid #007bff;
+  border: 2px solid #10d163;
   background: rgba(255,255,255,0.3);
   position: absolute;
   pointer-events: none;
@@ -42,7 +43,7 @@
 .zoomResult {
   width: 350px;
   height: 350px;
-  border: 1px solid #aaa;
+  border: 1px solid #cffcb1;
   overflow: hidden;
   position: absolute;
   left: 470px;
@@ -73,7 +74,7 @@
 }
 
 .activeThumb {
-  border-color: #007bff;
+  border-color: #0cff6d;
 }
 
 /* RIGHT SIDE */

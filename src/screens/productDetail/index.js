@@ -102,7 +102,7 @@ export default function ProductDetail() {
                 marginRight: "5px",
                 borderRadius: "5px",
                 height: "5vh",
-                width: "5vh",
+                width: "8vh",
                 borderColor: id === selectedSize ? "#19c839ff" : "#000000ff",
                 borderWidth: id === selectedSize ? "3px" : "1px",
                 borderStyle: "solid",

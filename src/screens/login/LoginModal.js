@@ -6,27 +6,19 @@ import Login from "./component/login";
 import OtpVerification from "./component/otpVerification";
 import UserRegistration from "./component/userRegistration";
 import { AuthContext } from "context/authContext";
-
+import ScrollBox from "components/ScrollBox";
+import ResetPassword from "./component/resetPassword";
 
 const LoginModal = ({ onClose }) => {
   const [step, setStep] = useState("login"); // login | otp
   const [mobile, setMobile] = useState("");
   const [isLogin, setIsLogin] = useState(true);
-  const { login} = useContext(AuthContext);
-  
-  const [otp, setOtp] = useState("");
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const { login } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
-
-  const isValidMobile = (mobile) => {
-    return /^[6-9]\d{9}$/.test(mobile);
-  };
-
   const sendOtp = async () => {
-     if (!isValidMobile(mobile)) {
-      console.log("Please enter a valid 10-digit mobile number.");
-      return;
-    }
     setStep("otp");
     try {
       const res = await fetch("http://localhost:8080/requestOtp", {
@@ -46,47 +38,16 @@ const LoginModal = ({ onClose }) => {
     }
   };
 
-  const verifYOtp = async () => {
+  const loginUser = async ({ email, password }) => {
     try {
-      const res = await fetch("http://localhost:8080/verifyOtp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          mobile: mobile,
-          otp,
-        }),
-      });
+      login({ email, password, mobile });
 
-      const data = await res.json();
-      console.log("Response:", data);
-      if (res.ok) {
-        setStep("register");
-        console.log("OTP verification successful!");
-      } else {
-        console.log(data.message || "Something went wrong!");
-      }
+      onClose();
     } catch (err) {
       console.error("Error:", err);
     }
   };
 
-  
-
-  const loginUser = async ({email, password,}) => {
-    try {
-      login( { email, password, mobile });
-
-
-
-        onClose();
-
-    } catch (err) {
-      console.error("Error:", err);
-    }
-  };
-  
   return (
     <div className="modal-overlay">
       <div className="modal-box">
@@ -95,34 +56,60 @@ const LoginModal = ({ onClose }) => {
         </button>
 
         {/* LEFT PANE */}
-          <div className="left-pane">
-            <h2>{isLogin ? "Login" : "Looks like you're new here!"}</h2>
-            <p>
-              {isLogin
-                ? "Get access to your Orders, Wishlist and Recommendations"
-                : "Sign up with your mobile number to get started"}
-            </p>
-            <img
-              src="/images/loginImg.png"
-              alt="illustration"
-              className="side-image"
-            />
-          </div>
+        <div className="left-pane">
+          <h2>{isLogin ? "Login" : "Looks like you're new here!"}</h2>
+          <p>
+            {isLogin
+              ? "Get access to your Orders, Wishlist and Recommendations"
+              : "Sign up with your mobile number to get started"}
+          </p>
+          <img
+            src="/images/loginImg.png"
+            alt="illustration"
+            className="side-image"
+          />
+        </div>
 
         {/* RIGHT PANE */}
-        <div className="right-pane">
-          {step === "login" && (
-            <Login mobile={mobile} setMobile={setMobile} isLogin={isLogin} setIsLogin={setIsLogin} sendOtp={sendOtp} loginUser={loginUser}></Login>
-          )}
+        <ScrollBox>
+          <div className="right-pane">
+            {step === "login" && (
+              <Login
+                mobile={mobile}
+                setMobile={setMobile}
+                isLogin={isLogin}
+                setIsLogin={setIsLogin}
+                sendOtp={sendOtp}
+                loginUser={loginUser}
+                isForgotPassword={isForgotPassword}
+                setIsForgotPassword={setIsForgotPassword}
+              ></Login>
+            )}
 
-          {step === "otp" && (
-            <OtpVerification mobile={mobile} setOtp={setOtp} verifYOtp={verifYOtp}></OtpVerification>
-          )}
+            {step === "otp" && (
+              <OtpVerification
+                mobile={mobile}
+                setStep={setStep}
+                isForgotPassword={isForgotPassword}
+              ></OtpVerification>
+            )}
 
-          {step === "register" && (
-           <UserRegistration mobile={mobile} setIsLogin={setIsLogin} loginUser={loginUser}></UserRegistration>
-          )}
-        </div>
+            {step === "reset" && (
+              <ResetPassword
+                mobile={mobile}
+                loginUser={loginUser}
+              ></ResetPassword>
+            )}
+
+            {step === "register" && (
+              <UserRegistration
+                mobile={mobile}
+                setIsLogin={setIsLogin}
+                loginUser={loginUser}
+              ></UserRegistration>
+            )}
+          </div>
+        </ScrollBox>
       </div>
     </div>
   );
