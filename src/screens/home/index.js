@@ -3,6 +3,7 @@ import "./home.css"; // Importing CSS file for styles
 import { useNavigate } from "react-router-dom";
 import Carousel from "components/Carousel";
 import CachedImage from "components/CachedImage";
+import api from "api/axios";
 import { useSelector } from "react-redux";
 import { useItems } from "context/itemsContext";
 
@@ -16,13 +17,12 @@ const HomePage = () => {
   const [wishlist, setWishlist] = useState([]);
   const [hoverImage, setHoverImage] = useState({});
   const [hoverIndex, setHoverIndex] = useState({});
-  // localStorage.clear();
+  
 
   useEffect(() => {
-    fetch(`http://localhost:8080/allProductvariants`)
-      .then((res) => res.json())
-      .then((data) => {
-        setProductvariants(data);
+    api.get(`/allProductvariants`)
+      .then((res) => {
+        setProductvariants(res?.data);
       });
   }, []);
 
@@ -42,9 +42,9 @@ const HomePage = () => {
 
   const onAddCartClick = (product) => {
     navigate("/cart");
-    addItem(product);
+    addCartItem(product);
   };
-  const { addItem } = useItems();
+  const { addCartItem } = useItems();
   return (
     <div className="homepage">
       <Carousel images={images} />
@@ -165,7 +165,7 @@ const HomePage = () => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   minHeight: "24px",
-                  lineHeight: "1.2",
+                  lineHeight: "1.3",
                   maxHeight: "1.2em",
                 }}
               >

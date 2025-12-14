@@ -1,43 +1,48 @@
 import { createContext, useState, useEffect } from "react";
 import api from "api/axios";
+import { useItems } from "context/itemsContext";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUserData,
+  loginUser,
+  logoutUser,
+  addLocalToRemoteCart,
+} from "../redux/actionCreators";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state?.userData?.user);
+
   const [loading, setLoading] = useState(true);
+  const { getCartItems, clearCartProduct } = useItems();
 
   // Check login when app loads
   useEffect(() => {
-    api.get("/user/profile")
-      .then(res => {
-        setUser(res.data.user);
-      })
-      .catch(async () => {
-        // Access token might be expired → try refresh
-        try {
-          await api.post("/auth/refresh");
-          const me = await api.get("/user/profile");
-          setUser(me.data.user);
-        } catch (e) {
-          setUser(undefined);
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
+    dispatch(getUserData());
+  }, [dispatch]);
 
-  const login = async ({email,mobile, password}) => {
-    const res = await api.post("/auth/login", { email,mobile, password });
-    setUser(res.data.user);
+  const addLocalCartToRemoteCart = () => {
+    const items = getCartItems() || [];
+    if (items.length === 0) return;
+
+    dispatch(addLocalToRemoteCart({ items }));
+    clearCartProduct();
   };
 
-  const logout = async () => {
-    await api.post("/auth/logout");
-    setUser(undefined);
+  const login = ({ email, mobile, password }) => {
+    dispatch(loginUser({ email, mobile, password, addLocalCartToRemoteCart }));
+  };
+
+  const logout = () => {
+    dispatch(logoutUser());
+    // Clear local cart when logging out to keep header in sync without reload
+    clearCartProduct();
   };
 
   return (
-    <AuthContext.Provider value={{ user, login,loading, logout }}>
+    <AuthContext.Provider value={{ user, login, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

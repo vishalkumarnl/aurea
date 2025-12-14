@@ -1,5 +1,5 @@
 // Header.js
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import "./Header.css"; // We'll define styles here
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -7,15 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { useItems } from "context/itemsContext";
 import MenuDropdown from "components/MenuDropdown"; 
 import { AuthContext } from "context/authContext";
+import { useSelector } from "react-redux";
 const Header = ({ setShowLogin }) => {
 
-   const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
+  const remoteCartItems = useSelector((state) => state?.userData?.cartItems) || [];
   const navigate = useNavigate();
-  const { items } = useItems();
-  const [cartItems, setCartItems] = useState(items);
-  useEffect(() => {
-    setCartItems(items);
-  }, [items]);
+  const { cartItems = [] } = useItems();
+
+  const cartCount = user ? remoteCartItems.length : cartItems.length;
+
   return (
     <header className="header">
       {/* Logo */}
@@ -49,12 +50,12 @@ const Header = ({ setShowLogin }) => {
             <span className="header__optionLineTwo">Account & Lists</span>
           </div>
         </button>)}
-        <button onClick={() => navigate("/orders")}>
-          <div className="header__option">
+        {user  && (<button onClick={() => navigate("/orders")}>
+          <div className="header__option_return">
             <span className="header__optionLineOne">Returns</span>
             <span className="header__optionLineTwo">& Orders</span>
           </div>
-        </button>
+        </button>)}
        
         <button
           style={{
@@ -67,7 +68,7 @@ const Header = ({ setShowLogin }) => {
           <div className="header__optionCart">
             <FaShoppingCart />
             <span className="header__optionLineTwo header__cartCount">
-              {cartItems.length}
+              {cartCount}
             </span>
           </div>
         </button>

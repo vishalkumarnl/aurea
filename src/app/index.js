@@ -18,6 +18,7 @@ import ProtectedRoute from "context/protectedRoute";
 import ReviewForm from "components/ReviewForm";
 import OrderDetailsPage from "screens/orders/OrderDetails";
 import OrderHistory from "screens/orders/OrderHistory";
+import api from "api/axios";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -25,20 +26,19 @@ function App() {
     // Check login when app loads
 
   useEffect(() => {
-    fetch(`http://localhost:8080/sizes`)
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(setProductSize(data));
+    api.get(`/sizes`)
+      .then((res) => {
+        dispatch(setProductSize(res?.data));
       });
-    fetch(`http://localhost:8080/colors`)
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch(setProductColors(data));
+    api.get(`/colors`)
+      .then((res) => {
+        dispatch(setProductColors(res?.data));
       });
   });
   return (
-    <AuthProvider>
     <ItemsProvider>
+    <AuthProvider>
+    
       <Router>
         <Header setShowLogin={setShowLogin} />
         <div style={{ height: "95%", paddingTop: "60px" }}>
@@ -48,17 +48,17 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/signIn" element={<AuthForm />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
+            <Route path="/orders" element={<ProtectedRoute setShowLogin={setShowLogin}><OrderHistory /></ProtectedRoute>} />
             <Route path="/productDetail" element={<ProductDetails />} />
-            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute setShowLogin={setShowLogin}><Profile /></ProtectedRoute>} />
             <Route path="/review" element={<ReviewForm />} />
             <Route path="/orders/:id" element={<OrderDetailsPage />} />
           </Routes>
           <Footer></Footer>
         </div>
       </Router>
-    </ItemsProvider>
     </AuthProvider>
+    </ItemsProvider>
   );
 }
 

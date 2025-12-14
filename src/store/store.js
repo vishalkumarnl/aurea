@@ -1,28 +1,28 @@
 import { configureStore } from "@reduxjs/toolkit";
-import {persistReducer, persistStore} from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import rootReducer from "./rootReducer";
-import {loggerMiddleware} from "./middleware/logger.middleware";
-import logger from 'redux-logger';
+import { loggerMiddleware } from "./middleware/logger.middleware";
+import { apiCallMiddleware } from "./middleware/apicall.middleware";
 import storage from "redux-persist/lib/storage/session";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist:["auth", "product"]
-}
+  // persist the userData and product slices so logged-in state survives reload
+  whitelist: ["userData", "product"],
+};
 
-const persistedRootReducer = persistReducer(persistConfig,rootReducer);
+const persistedRootReducer = persistReducer(persistConfig, rootReducer);
 
 
 export const store = configureStore({
   reducer: persistedRootReducer,
-  // middleware: applyMiddleware(...middleware)
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(loggerMiddleware),
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger)
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware({serializableCheck:false}).concat(loggerMiddleware)
+    getDefaultMiddleware({ serializableCheck: false })
+      .concat(loggerMiddleware)
+      .concat(apiCallMiddleware),
 });
+
+
 
 export const persistor = persistStore(store);

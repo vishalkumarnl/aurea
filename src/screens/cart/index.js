@@ -1,40 +1,58 @@
-import React, { useState } from "react";
+import React, { useContext,useEffect, useState } from "react";
 import CartCard from "./CartCard";
 import { useItems } from "context/itemsContext";
+import { AuthContext } from "context/authContext";
+import { useSelector } from "react-redux";
 
 const Cart = () => {
-  const { items, addItem, removeProduct } = useItems();
-  const [orders, setOrders] = useState(items || []);
+  const { user } = useContext(AuthContext);
+   const remoteCartItems = useSelector((state) => state?.userData?.cartItems);
+
+  const { cartItems, addCartItem, removeCartProduct } = useItems();
+  // Keep local items state derived from either remote (logged-in) or local context
+  const [items, setItems] = useState([]);
+
+  // Sync items whenever source data changes (handles reload / async fetch)
+  useEffect(() => {
+    const source = user ? remoteCartItems : cartItems;
+    if (Array.isArray(source)) {
+      // ensure selected flag exists on each item
+      const normalized = source.map((it) => ({ ...it, selected: !!it.selected }));
+      setItems(normalized);
+    } else {
+      setItems([]);
+    }
+  }, [user, remoteCartItems, cartItems]);
 
   // ✅ Quantity update
   const updateQuantity = (item, delta) => {
-    const tempItem = orders.find(
+    const tempItem = items.find(
       (order) => order.variant_id === item.variant_id
     );
     if (delta < 0 && tempItem?.quantity === 1) {
       return;
     }
-    setOrders((prevOrders) =>
+    setItems((prevOrders) =>
       prevOrders.map((order) =>
         order.variant_id === item.variant_id
           ? { ...order, quantity: Math.max(1, order.quantity + delta) }
           : order
       )
     );
-    addItem(item, delta);
+    addCartItem(item, delta);
   };
 
   // ✅ Remove item
   const removeItem = (variant_id) => {
-    setOrders((prevOrders) =>
+    setItems((prevOrders) =>
       prevOrders.filter((order) => order.variant_id !== variant_id)
     );
-    removeProduct(variant_id);
+    removeCartProduct(variant_id);
   };
 
   // ✅ Toggle selection
   const toggleSelect = (variant_id) => {
-    setOrders((prevOrders) =>
+    setItems((prevOrders) =>
       prevOrders.map((order) =>
         order.variant_id === variant_id
           ? { ...order, selected: !order.selected }
@@ -45,19 +63,19 @@ const Cart = () => {
 
   // ✅ Select / Deselect All
   const toggleSelectAll = (checked) => {
-    setOrders((prevOrders) =>
+    setItems((prevOrders) =>
       prevOrders.map((o) => ({ ...o, selected: checked }))
     );
   };
 
   // ✅ Compute total for selected items
-  const totalSelected = orders
+  const totalSelected = items
     .filter((order) => order.selected)
     .reduce((sum, order) => sum + order.price * order.quantity, 0);
 
   // ✅ Checkout Handler
   const handleCheckout = () => {
-    const selectedItems = orders.filter((o) => o.selected);
+    const selectedItems = items.filter((o) => o.selected);
     if (selectedItems.length === 0) {
       alert("Please select at least one item to checkout!");
       return;
@@ -73,7 +91,7 @@ const Cart = () => {
     // navigate("/checkout", { state: { selectedItems } });
   };
 
-  const allSelected = orders.every((order) => order.selected);
+  const allSelected = items.every((order) => order.selected);
 
   return (
     <div
@@ -85,7 +103,7 @@ const Cart = () => {
     >
       <h2>Your Cart</h2>
 
-      {orders.length > 0 && (
+      {items.length > 0 && (
         <div style={{ marginBottom: "10px" }}>
           <label>
             <input
@@ -99,8 +117,8 @@ const Cart = () => {
       )}
 
       {/* 🧩 Order Cards */}
-      {orders.length > 0 ? (
-        orders.map((product) => (
+      {items.length > 0 ? (
+        items.map((product) => (
           <CartCard
             key={product.id}
             product={product}
@@ -114,7 +132,7 @@ const Cart = () => {
       )}
 
       {/* 💰 Checkout Summary */}
-      {orders.length > 0 && (
+      {items.length > 0 && (
         <div
           style={{
             marginTop: "20px",

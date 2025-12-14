@@ -76,6 +76,12 @@ button.header__button {
   margin-left: 20px;
 }
 
+.header__option_return {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+  cursor: pointer;
+}
 /* Mobile menu (hidden by default on small screens) */
 
 @media (max-width: 800px) {
@@ -83,10 +89,12 @@ button.header__button {
     display: block;
     margin-left: 8px;
   }
-  .header__nav button {
+  .header__option_return {
     display: none;
   }
 }
+
+
 
 .header__option {
   display: flex;
