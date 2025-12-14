@@ -116,6 +116,336 @@
   margin-bottom: 15px;
 }
 
+.reviewsSection {
+  margin-top: 24px;
+}
+
+.reviewsHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.averageRating {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffa41c;
+}
+
+.reviewCard {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  margin-bottom: 10px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffd966;
+  color: #222;
+  font-weight: 700;
+}
+
+.reviewMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reviewName {
+  font-weight: 700;
+}
+
+.reviewDate {
+  color: #777;
+  font-size: 12px;
+}
+
+.stars {
+  color: #ffa41c;
+  font-weight: 700;
+}
+
+.reviewText {
+  margin-top: 6px;
+  color: #333;
+}
+
+.reviewActions {
+  margin-top: 8px;
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: #666;
+}
+
+/* Rating breakdown */
+.ratingBreakdown {
+  margin: 12px 0 18px;
+  max-width: 420px;
+}
+
+.breakdownRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.breakdownLabel {
+  width: 36px;
+  font-weight: 600;
+}
+
+.breakdownBar {
+  flex: 1;
+  height: 10px;
+  background: #f1f1f1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.breakdownFill {
+  height: 100%;
+  background: linear-gradient(90deg, #ffd54f, #ffa41c);
+}
+
+.breakdownCount {
+  width: 36px;
+  text-align: right;
+  font-weight: 600;
+}
+
+.addReviewBtn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px dashed #ccc;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* Modal for adding review */
+.modalBackdrop {
+  position: fixed;
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+}
+
+.modalCard {
+  width: 520px;
+  max-width: calc(100% - 40px);
+  background: #fff;
+  padding: 18px;
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.formRow {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.formRow label { font-size: 13px; margin-bottom: 6px; }
+.formRow input, .formRow textarea, .formRow select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.modalActions { display:flex; gap: 8px; justify-content: flex-end; margin-top: 8px; }
+.btnPrimary { background: linear-gradient(90deg,#2e7d32,#1b5e20); color: #fff; padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; }
+.btnAlt { background: transparent; border: 1px solid #ddd; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+
+@media (max-width: 600px) {
+  .modalCard { width: 92%; }
+}
+
+/* Lightbox styles */
+.lightboxBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.lightboxCard {
+  position: relative;
+  max-width: 95%;
+  max-height: 95%;
+  width: 70vw; /* aim to cover ~70% of the viewport width */
+  height: 70vh; /* aim to cover ~70% of the viewport height */
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lightboxInner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+}
+
+.lightboxViewport {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.lightboxImg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #111;
+}
+
+.lightboxNav {
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  border: none;
+  padding: 12px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.lightboxClose {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: rgba(255,255,255,0.08);
+  border: none;
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.lightboxFooter {
+  margin-top: 10px;
+  color: #ddd;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .lightboxCard { width: 90vw; height: 70vh; }
+  .lightboxImg { max-width: 90vw; max-height: 60vh; }
+  .lightboxNav { padding: 10px 12px; font-size: 18px; }
+}
+
+/* Collective gallery showing thumbnails from all reviews */
+.reviewGallery {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.75rem 0 1.25rem;
+  align-items: center;
+}
+
+.reviewGallery img,
+.gallery-thumb {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Per-review thumbnails */
+.review-images {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.review-images img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid var(--muted-150);
+}
+
+@media (max-width: 600px) {
+  .reviewGallery img, .gallery-thumb {
+    width: 48px;
+    height: 48px;
+  }
+
+  .review-images img {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+/* Collective gallery shown on top of reviews */
+.reviewGallery {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 0 16px;
+}
+
+.reviewGallery .gallery-thumb {
+  width: 86px;
+  height: 86px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.review-images {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.review-images img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* make gallery and thumbs responsive */
+@media (max-width: 600px) {
+  .reviewGallery .gallery-thumb { width: 72px; height: 72px; }
+  .review-images img { width: 56px; height: 56px; }
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .container {
