@@ -24,7 +24,7 @@
   width: 55px;
   height: 55px;
   border-radius: 50%;
-  background: #ffd966;
+  background: var(--brand-green-2);
   margin-right: 15px;
 }
 
@@ -80,10 +80,10 @@
 
 /* ACTIVE ITEM – BLUE LEFT BORDER + Blue Text */
 .sidebar-section button.active {
-  color: #2874f0;
+  color: var(--brand-green);
   font-weight: bold;
-  background: #f3f8ff;
-  border-left: 4px solid #2874f0;
+  background: #f3fff6;
+  border-left: 4px solid var(--brand-green);
   padding-left: 16px; /* adjust after border */
 }
 
@@ -94,16 +94,16 @@
 
 /* ACTIVE ITEM – BLUE LEFT BORDER + Blue Text */
 .sidebar-section p.active {
-  color: #2874f0;
+  color: var(--brand-green);
   font-weight: bold;
-  background: #f3f8ff;
-  border-left: 4px solid #2874f0;
+  background: #f3fff6;
+  border-left: 4px solid var(--brand-green);
   padding-left: 16px; /* adjust after border */
 }
 
 /* Price (₹0) styling */
 .green {
-  color: #388e3c;
+  color: var(--brand-green-dark);
   font-weight: bold;
 }
 
@@ -131,7 +131,7 @@
 
 /* Active selected item icon color */
 .sidebar-section p.active .icon, .sidebar-section button.active .icon {
-  color: #2874f0;
+  color: var(--brand-green);
 }
 
 /* Align icon + text */

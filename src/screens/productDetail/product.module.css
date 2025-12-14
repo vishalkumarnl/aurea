@@ -74,7 +74,7 @@
 }
 
 .activeThumb {
-  border-color: #0cff6d;
+  border-color: var(--brand-green);
 }
 
 /* RIGHT SIDE */
@@ -84,7 +84,7 @@
 
 .price {
   font-size: 28px;
-  color: #007bff;
+  color: var(--brand-green-dark);
 }
 
 .buyBtn {
@@ -98,7 +98,7 @@
 }
 
 .buyBtn:hover {
-  background: #3ee628;
+  background: var(--brand-green-2);
 }
 
 .specTable {
@@ -130,7 +130,7 @@
 .averageRating {
   font-size: 24px;
   font-weight: 700;
-  color: #ffa41c;
+  color: var(--brand-green);
 }
 
 .reviewCard {
@@ -150,8 +150,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #ffd966;
-  color: #222;
+  background: var(--brand-green-2);
+  color: #fff;
   font-weight: 700;
 }
 
@@ -171,7 +171,7 @@
 }
 
 .stars {
-  color: #ffa41c;
+  color: var(--brand-green);
   font-weight: 700;
 }
 
@@ -216,7 +216,7 @@
 
 .breakdownFill {
   height: 100%;
-  background: linear-gradient(90deg, #ffd54f, #ffa41c);
+  background: linear-gradient(90deg, var(--brand-green-2), var(--brand-green));
 }
 
 .breakdownCount {

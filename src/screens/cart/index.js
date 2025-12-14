@@ -3,6 +3,8 @@ import CartCard from "./CartCard";
 import { useItems } from "context/itemsContext";
 import { AuthContext } from "context/authContext";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import "./cart.css";
 
 const Cart = () => {
   const { user } = useContext(AuthContext);
@@ -73,94 +75,79 @@ const Cart = () => {
     .filter((order) => order.selected)
     .reduce((sum, order) => sum + order.price * order.quantity, 0);
 
-  // ✅ Checkout Handler
+  const navigate = useNavigate();
+
+  // ✅ Checkout Handler: navigate to /checkout with selected items
   const handleCheckout = () => {
+    // prefer selected items, otherwise checkout all items in the cart
     const selectedItems = items.filter((o) => o.selected);
-    if (selectedItems.length === 0) {
-      alert("Please select at least one item to checkout!");
+    const toCheckout = selectedItems.length > 0 ? selectedItems : items;
+    if (!toCheckout || toCheckout.length === 0) {
+      alert("Your cart is empty. Add items before proceeding to checkout.");
       return;
     }
-
-    alert(
-      `Proceeding to payment for ${
-        selectedItems.length
-      } item(s) — Total ₹${totalSelected.toLocaleString()}`
-    );
-
-    // You could navigate to a payment page here
-    // navigate("/checkout", { state: { selectedItems } });
+    navigate("/checkout", { state: { selectedItems: toCheckout } });
   };
 
   const allSelected = items.every((order) => order.selected);
 
   return (
-    <div
-      style={{
-        padding: "30px",
-        backgroundColor: "#f5f5f5",
-        minHeight: "100vh",
-      }}
-    >
-      <h2>Your Cart</h2>
+    <div className="cartPage">
+      <h2 style={{ maxWidth: 1200, margin: "0 auto 18px" }}>Your Cart</h2>
 
-      {items.length > 0 && (
-        <div style={{ marginBottom: "10px" }}>
-          <label>
-            <input
-              type="checkbox"
-              checked={allSelected}
-              onChange={(e) => toggleSelectAll(e.target.checked)}
-            />{" "}
-            Select All
-          </label>
+      <div className="cartGrid">
+        <div>
+          {items.length > 0 && (
+            <div style={{ marginBottom: "10px" }}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={(e) => toggleSelectAll(e.target.checked)}
+                />{" "}
+                Select All
+              </label>
+            </div>
+          )}
+
+          <div className="cartList">
+            {items.length > 0 ? (
+              items.map((product) => (
+                <CartCard
+                  key={product.id}
+                  product={product}
+                  updateQuantity={updateQuantity}
+                  removeItem={removeItem}
+                  toggleSelect={toggleSelect}
+                />
+              ))
+            ) : (
+              <div className="emptyMessage">No orders found.</div>
+            )}
+          </div>
         </div>
-      )}
 
-      {/* 🧩 Order Cards */}
-      {items.length > 0 ? (
-        items.map((product) => (
-          <CartCard
-            key={product.id}
-            product={product}
-            updateQuantity={updateQuantity}
-            removeItem={removeItem}
-            toggleSelect={toggleSelect}
-          />
-        ))
-      ) : (
-        <p>No orders found.</p>
-      )}
+        {items.length > 0 && (
+          <div className="cartSummary">
+            <div className="summaryRow">
+              <div>Selected items</div>
+              <div className="selectedTotal">₹{totalSelected.toLocaleString()}</div>
+            </div>
+            <div style={{ fontSize: 13, color: "#666", marginBottom: 12 }}>
+              Shipping, taxes and discounts will be calculated at checkout
+            </div>
 
-      {/* 💰 Checkout Summary */}
-      {items.length > 0 && (
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "15px",
-            borderRadius: "8px",
-            background: "#fff",
-            boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-            textAlign: "right",
-          }}
-        >
-          <p style={{ fontWeight: "bold" }}>
-            Selected Total: ₹{totalSelected.toLocaleString()}
-          </p>
-          <button
-            onClick={handleCheckout}
-            style={{
-              backgroundColor: "#FFD814",
-              border: "1px solid #FCD200",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
-            Proceed to Checkout
-          </button>
-        </div>
-      )}
+            <button className="checkoutBtn" onClick={handleCheckout}>
+              Proceed to Checkout
+            </button>
+            {items.filter((o) => o.selected).length === 0 && (
+              <div style={{ fontSize: 12, color: "#666", marginTop: 8 }}>
+                Tip: select items to checkout a subset, otherwise all items will be checked out.
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

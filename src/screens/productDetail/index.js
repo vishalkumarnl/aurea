@@ -459,7 +459,7 @@ export default function ProductDetail() {
       <div className={styles.productInfo}>
         <h2>{product.name}</h2>
         <p className={styles.price}>{getPriceByColorAndSize()}</p>
-        <p style={{ color: "#ffa41c" }}>⭐ {product.rating} / 5</p>
+        <p style={{ color: "var(--brand-green)" }}>⭐ {product.rating} / 5</p>
         <div style={{ marginBottom: "10px" }}>{showAvailableColors()}</div>
         {showAvailableSizes()}
         <p>{product.description}</p>

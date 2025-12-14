@@ -1,0 +1,75 @@
+.checkoutPage { padding: 30px; }
+.checkoutGrid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+@media (max-width: 900px){ .checkoutGrid { grid-template-columns: 1fr; } }
+.checkoutForm {
+	background: #fff;
+	padding: 22px;
+	border-radius: 8px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.checkoutForm h2 { margin-top: 0; font-size: 20px; }
+.checkoutForm .sectionTitle { font-weight: 700; margin-bottom: 6px; }
+.checkoutForm label { display: block; margin-bottom: 6px; font-size: 14px; }
+.checkoutForm input, .checkoutForm textarea { width: 100%; padding: 10px 12px; border: 1px solid #e6e6e6; border-radius: 8px; margin-top: 6px; font-size: 14px; }
+.checkoutForm textarea { min-height: 90px; }
+.checkoutForm .addressBox {
+	padding: 14px;
+	border-radius: 8px;
+	border: 1px solid #eee;
+	margin-bottom: 10px;
+	/* display: grid; */
+	grid-template-columns: 28px 1fr 90px;
+	gap: 12px;
+	align-items: center;
+	transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+	background: #fff;
+}
+.checkoutForm .addressBox.selected {
+	border-color: var(--brand-green);
+	box-shadow: 0 6px 20px rgba(16,209,99,0.06);
+	transform: translateY(-1px);
+}
+.checkoutForm .addressBox input[type="radio"] { margin: 0; width: min-content; }
+.checkoutForm .addressBox .addrDetails { min-width: 0; }
+.checkoutForm .addressBox .addrNameRow { display:flex; align-items:center; gap:8px; }
+.checkoutForm .addrBadge { margin-left: 6px; background: var(--brand-green); color: #fff; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+
+.checkoutForm .addrActions { display:flex; gap:8px; justify-self: end; opacity: 0; transform: translateY(2px); transition: all 140ms ease; }
+.checkoutForm .addrActionBtn { background: transparent; border: none; color: #666; padding: 6px 8px; border-radius: 6px; cursor: pointer; }
+.checkoutForm .addrActionBtn:hover { color: var(--brand-green); background: rgba(25,200,57,0.06); }
+.checkoutForm .addressBox:hover .addrActions, .checkoutForm .addressBox:focus-within .addrActions { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 700px) {
+	.checkoutForm .addressBox { grid-template-columns: 24px 1fr; grid-template-rows: auto auto; }
+	.checkoutForm .addrActions { grid-column: 2 / span 1; justify-self: start; margin-top: 8px; }
+}
+.checkoutForm .addressBox:hover { border-color: rgba(25,200,57,0.35); }
+.checkoutForm .smallBtn { background: none; border: 1px dashed #ccc; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+.checkoutForm .smallBtn:hover { border-color: var(--brand-green); }
+.checkoutForm .saveBtn { background: var(--brand-green); color: #fff; padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; }
+.checkoutForm .saveBtn:hover { opacity: 0.95; }
+.checkoutSummary{ background: #fff; padding: 18px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.checkoutSummary h3 { margin-top: 0; }
+.summaryItems { display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+.summaryItem { display:flex; gap: 12px; align-items:center; }
+.summaryItem img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; }
+.summaryItemDetails { flex: 1; min-width: 0; }
+.summaryItemTitle { font-weight: 700; white-space: normal; overflow: hidden; text-overflow: ellipsis; }
+.summaryItemMeta { font-size: 13px; color: #666; margin-top: 6px; }
+.summaryItemPrice { margin-left: auto; font-weight: 700; white-space: nowrap; text-align: right; min-width: 70px; }
+.summaryRow { display:flex; justify-content: space-between; margin: 8px 0; }
+.checkoutBtn { background-color: var(--brand-green); border: 1px solid var(--brand-green-dark); color: #fff; padding: 10px 14px; border-radius: 6px; width: 100%; cursor: pointer; font-weight: 700; }
+
+@media (max-width: 480px) {
+	.summaryItem { gap: 8px; }
+	.summaryItem img { width: 48px; height: 48px; }
+	.summaryItemPrice { font-size: 14px; }
+}
+
+/* Make checkout summary sticky on large screens */
+@media (min-width: 900px) {
+	.checkoutSummary { position: sticky; top: 90px; }
+}
