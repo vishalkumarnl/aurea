@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
   const nevigateProductPage = (product) => {
-    navigate(`/productDetail?id=${product?.product_id}`);
+    navigate(`/productDetail?product_id=${product?.product_id}`);
   };
   const date = dayjs(order.date);
   const productSizes = useSelector((state) => state.product?.productSize) || [];

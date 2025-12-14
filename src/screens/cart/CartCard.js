@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const CartCard = ({ product, updateQuantity, removeItem, toggleSelect }) => {
   const navigate = useNavigate();
   const nevigateProductPage = (product) => {
-    navigate(`/productDetail?id=${product?.product_id}`);
+    navigate(`/productDetail?product_id=${product?.product_id}`);
   };
 
   const productSizes = useSelector((state) => state.product?.productSize) || [];
