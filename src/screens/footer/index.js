@@ -30,102 +30,71 @@ const Footer = () => {
 
   return (
     <>
-      {/* Footer Section */}
-      <footer
-        style={{
-          backgroundImage: `url("/images/footer.png")`,
-          textAlign: "center",
-          width: "100%",
-          backgroundSize: "cover" /* show whole image */,
-          // backgroundRepeat: "no-repeat" /* avoid repeating */,
-          // backgroundPosition: "center" /* center image */,
-        }}
-      >
-        <h3 style={{ color: "#2142b8ff", marginBottom: "10px" }}>
-          Aurea Organic
-        </h3>
+      <footer className="site-footer">
+        <div className="footer-overlay" />
+        <div className="footer-container">
+          <div className="footer-col logo-col">
+            <h3 className="footer-title">Aurea Organic</h3>
+            <p className="footer-desc">Natural, sustainable, and locally sourced health & wellness products crafted with care.</p>
+            <div className="footer-social">
+              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <FaFacebook />
+              </a>
+              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <FaInstagram />
+              </a>
+            </div>
+          </div>
 
-        {/* Phone */}
-        <p>
-          <FaPhoneAlt style={{ color: "#2142b8ff", marginRight: "6px" }} />
-          <button
-            href={`tel:${phone}`}
-            style={{
-              color: "#2142b8ff",
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            {phone}
-          </button>
-        </p>
+          <div className="footer-col contact-col">
+            <h4>Contact</h4>
+            <p className="contact-row"><FaPhoneAlt className="footer-icon" /> <a href={`tel:${phone}`}>{phone}</a></p>
+            <p className="contact-row"><FaEnvelope className="footer-icon" /> <a href={`mailto:${email}`}>{email}</a></p>
+            <p className="contact-row"><FaMapMarkerAlt className="footer-icon" /> <a href={mapLink} target="_blank" rel="noopener noreferrer">{address}</a></p>
+          </div>
 
-        {/* Email */}
-        <p>
-          <FaEnvelope style={{ color: "#2142b8ff", marginRight: "6px" }} />
-          <button
-            onClick={handleClick}
-            style={{
-              color: "#2142b8ff",
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            {email}
-          </button>
-        </p>
+          <div className="footer-col extras-col">
+            <div className="extras-lists">
+              <div className="list-block">
+                <h4>Quick Links</h4>
+                <ul className="footer-links">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/about">About</a></li>
+                  <li><a href="/products">Products</a></li>
+                  <li><a href="/contact">Contact</a></li>
+                </ul>
+              </div>
 
-        {/* Address */}
-        <p>
-          <FaMapMarkerAlt style={{ color: "#2142b8ff", marginRight: "6px" }} />
-          <a
-            href={mapLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              color: "#2142b8ff",
-              textDecoration: "none",
-              fontWeight: "bold",
-            }}
-          >
-            {address}
-          </a>
-        </p>
+              <div className="list-block">
+                <h4>Policies</h4>
+                <ul className="legal-links">
+                  <li><a href="/privacy">Privacy Policy</a></li>
+                  <li><a href="/terms">Terms &amp; Conditions</a></li>
+                  <li><a href="/refund">Refund Policy</a></li>
+                  <li><a href="/shipping">Shipping Policy</a></li>
+                </ul>
+              </div>
+            </div>
 
-        {/* Social Icons */}
-        <div style={{ marginTop: "20px" }}>
-          <a
-            href={facebook}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              margin: "0 15px",
-              color: "#1877F2", // Facebook blue
-              fontSize: "1.8rem",
-            }}
-            aria-label="Facebook"
-          >
-            <FaFacebook />
-          </a>
-
-          <a
-            href={instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              margin: "0 15px",
-              color: "#E1306C", // Instagram pink
-              fontSize: "1.8rem",
-            }}
-            aria-label="Instagram"
-          >
-            <FaInstagram />
-          </a>
+            <div className="subscribe">
+              <input aria-label="Email for newsletter" placeholder="Subscribe for updates" />
+              <button className="subscribeBtn">Subscribe</button>
+            </div>
+          </div>
         </div>
 
-        <p style={{ fontSize: "0.9rem", color: "blue", marginTop: "20px" }}>
-          © {new Date().getFullYear()} Aurea Organic. All rights reserved.
-        </p>
+        {/* Centered subscribe for desktop */}
+        <div className="footer-subscribe" aria-hidden="false">
+          <div className="subscribe subscribe-center">
+            <input aria-label="Email for newsletter" placeholder="Subscribe for updates" />
+            <button className="subscribeBtn">Subscribe</button>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <div>© {new Date().getFullYear()} Aurea Organic. All rights reserved.</div>
+          <div className="footer-credit">Built with care • <a href="/privacy">Privacy</a></div>
+        </div>
       </footer>
       <FloatingWhatsApp />
     </>

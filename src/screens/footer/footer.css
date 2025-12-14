@@ -9,3 +9,119 @@
 @media (max-width: 600px) {
   .imgP { aspect-ratio: 3 / 1; }
 }
+
+/* Redesigned footer styles */
+
+.site-footer {
+  --accent: #19c839; /* Aurea green */
+  --accent-2: #0f9b2f; /* deeper green */
+  --muted-on-dark: #d6f9e0;
+  --muted-2: rgba(255,255,255,0.04);
+  position: relative;
+  padding: 48px 20px 18px;
+  color: var(--muted-on-dark);
+  /* stronger visible green background (gradient) to ensure the footer appears green */
+  background: linear-gradient(180deg, var(--brand-green-dark), var(--brand-green));
+  /* keep image pseudo-element as optional texture but do not rely on it for primary color */
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  position: relative;
+}
+
+
+.footer-overlay {
+  position: absolute;
+  inset: 0;
+  /* subtle green overlay to improve text contrast */
+  background: linear-gradient(180deg, rgba(12,50,16,0.18), rgba(8,30,14,0.24));
+  pointer-events: none;
+}
+
+/* Apply green tint to background image via pseudo-element so the image shifts toward green hues */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  /* tint the image toward green: mild hue-rotate + sepia + brightness */
+  filter: grayscale(20%) sepia(10%) hue-rotate(75deg) saturate(1.2) brightness(0.7);
+  opacity: 0.7;
+  z-index: 0;
+}
+
+/* Ensure footer content sits above the tinted image */
+.site-footer > * {
+  position: relative;
+  z-index: 1;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.footer-col h4 { color: #e9eefc; margin-bottom: 8px; }
+.footer-title { color: #ffffff; margin-bottom: 8px; font-size: 20px; }
+.footer-desc { color: var(--muted-on-dark); margin-bottom: 12px; max-width: 380px; line-height:1.45 }
+
+.footer-social a { margin-right: 12px; color: #fff; font-size: 20px; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; background: var(--muted-2); transition: background 0.15s, transform 0.12s, color 0.12s; }
+.footer-social a:hover { transform: translateY(-3px); background: rgba(255,255,255,0.06); color: var(--accent); box-shadow: 0 6px 18px rgba(25,200,57,0.12); }
+
+.contact-row { display:flex; align-items:center; gap:10px; color:var(--muted-on-dark); margin:6px 0; }
+.footer-icon { color: var(--accent); }
+.contact-row a { color: #fff; text-decoration: none; font-weight:600 }
+
+.footer-links { list-style: none; padding:0; margin: 6px 0 12px; display:flex; flex-direction:column; gap:6px }
+.footer-links a { color: var(--muted-on-dark); text-decoration:none }
+.footer-links a:hover { text-decoration:underline }
+
+.legal-links { list-style: none; padding:0; margin: 6px 0 12px; display:flex; flex-direction:column; gap:6px }
+.legal-links a { color: var(--muted-on-dark); text-decoration:none; font-size: 14px }
+.legal-links a:hover { text-decoration:underline }
+
+/* Arrange quick links and policy lists side-by-side on desktop */
+.extras-lists { display:block; gap: 18px; }
+.extras-lists .list-block { margin-bottom: 12px }
+
+@media (min-width: 901px) {
+  .extras-lists { display:flex; gap: 28px; }
+  .extras-lists .list-block { flex: 1 1 0; }
+}
+
+.subscribe { display:flex; gap:8px; margin-top:8px }
+.subscribe input { flex:1; padding:10px 12px; border-radius:6px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); color: #fff }
+.subscribe input::placeholder { color: rgba(255,255,255,0.6) }
+.subscribeBtn { padding:9px 14px; border-radius:6px; background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:#fff; border:none; cursor:pointer; box-shadow: 0 6px 18px rgba(25,200,57,0.14) }
+.subscribeBtn:hover { transform: translateY(-2px); filter: brightness(1.03); }
+
+/* Center the subscribe input for desktop and hide the inline one on large screens */
+.footer-subscribe { display:flex; justify-content:center; margin: 20px 0; }
+.footer-subscribe .subscribe { max-width: 640px; width: 100%; }
+
+@media (min-width: 901px) {
+  /* hide the inline subscribe that sits inside the extras column on desktop */
+  .extras-col .subscribe { display: none; }
+}
+
+@media (max-width: 900px) {
+  /* hide the centered subscribe on smaller screens so inline (column) subscribe is used */
+  .footer-subscribe { display: none; }
+}
+
+.footer-bottom { margin-top: 22px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; max-width:1200px; margin-left:auto; margin-right:auto; display:flex; justify-content:space-between; color:var(--muted-on-dark); font-size:13px }
+.footer-credit a { color:var(--muted-on-dark); text-decoration:underline }
+
+@media (max-width: 900px) {
+  .footer-container { grid-template-columns: 1fr; gap: 18px; }
+  .footer-bottom { flex-direction: column; gap: 8px; align-items:center }
+  .footer-bottom div { text-align:center }
+}
+
+/* Small polish: make links and inputs more prominent on focus for accessibility */
+.footer-links a:focus, .contact-row a:focus, .subscribe input:focus, .subscribeBtn:focus { outline: 3px solid rgba(25,200,57,0.14); outline-offset: 2px; }

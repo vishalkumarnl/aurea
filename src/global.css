@@ -7,6 +7,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Brand variables for consistent theming */
+:root {
+  --brand-green: #19c839;
+  --brand-green-2: #10d163;
+  --brand-green-dark: #0b3b1a;
+  --footer-bg: #07220f; /* deep footer background fallback */
+  --footer-text: #e6f8ea;
+}
+
 /* Use a more predictable box model across the app */
 *,
 *::before,
