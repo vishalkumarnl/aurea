@@ -73,3 +73,47 @@
 @media (min-width: 900px) {
 	.checkoutSummary { position: sticky; top: 90px; }
 }
+
+/* Modal for adding address */
+.addrModal { position: fixed; inset: 0; z-index: 1200; display: flex; align-items: center; justify-content: center; }
+.addrModalBackdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+.addrModalContent { position: relative; background: #fff; padding: 20px; border-radius: 10px; width: 720px; max-width: calc(100% - 32px); box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 2; }
+@media (max-width: 720px) { .addrModalContent { width: calc(100% - 32px); padding: 14px; } }
+.addrModalContent h3 { margin-top: 0; }
+.addrModalContent .smallBtn { margin-left: 0; }
+.addrModalContent input, .addrModalContent textarea { box-sizing: border-box; }
+
+/* Address type toggle (Home / Work) */
+.addrTypeToggle { display: flex; gap: 8px; margin-top: 8px; }
+.addrTypeToggle .toggleBtn { border: 1px solid #e6e6e6; background: transparent; padding: 8px 12px; border-radius: 8px; cursor: pointer; color: #333; font-size: 14px; }
+.addrTypeToggle .toggleBtn.active { background: var(--brand-green); color: #fff; border-color: var(--brand-green); }
+.addrTypeToggle .toggleBtn:focus { outline: 2px solid rgba(26,115,232,0.12); }
+@media (max-width: 480px) { .addrTypeToggle { gap: 6px; } .addrTypeToggle .toggleBtn { flex: 1; padding: 10px 12px; } }
+
+/* Modal actions responsive */
+.modalActions { display: flex; gap: 8px; }
+.modalActions .saveBtn { min-width: 120px; }
+@media (max-width: 480px) { .modalActions { flex-direction: column; } .modalActions .saveBtn, .modalActions .smallBtn { width: 100%; } }
+
+/* Payment method selectors */
+.paymentOptions { display:flex; flex-direction: column; gap: 8px; }
+.paymentMethodCard { display:flex; align-items:center; gap:12px; padding: 12px; border-radius: 10px; border: 1px solid #eee; cursor: pointer; background: #fff; transition: all 150ms ease; }
+.paymentMethodCard:hover { border-color: rgba(0,0,0,0.12); transform: translateY(-1px); }
+.paymentMethodCard .pmIcon { width: 36px; height: 36px; display:flex; align-items:center; justify-content:center; border-radius: 8px; background: #fafafa; color: #333; font-size: 18px; }
+.paymentMethodCard .pmDetails { flex: 1; min-width: 0; }
+.paymentMethodCard .pmTitle { font-weight: 700; }
+.paymentMethodCard .pmSubtitle { font-size: 13px; color: #666; margin-top: 4px; }
+.paymentMethodCard .pmCheck { color: var(--brand-green); font-size: 18px; margin-left: 12px; }
+.paymentMethodCard.selected { border-color: var(--brand-green); box-shadow: 0 8px 30px rgba(16,209,99,0.06); background: linear-gradient(180deg, #fbfff7, #f6fff2); }
+
+/* Payment form fields (Card / UPI inputs) */
+.paymentForm label { display: block; margin-bottom: 8px; font-size: 14px; color: #222; }
+.paymentForm input { width: 100%; padding: 10px 12px; border: 1px solid #e6e6e6; border-radius: 8px; font-size: 14px; margin-top: 6px; box-sizing: border-box; }
+.paymentRow { display: flex; gap: 8px; }
+.paymentRow label { flex: 1; }
+@media (max-width: 480px) { .paymentRow { flex-direction: column; } }
+
+
+
+/* Make modal content scrollable on small screens */
+.addrModalContent { max-height: 80vh; overflow: auto; }

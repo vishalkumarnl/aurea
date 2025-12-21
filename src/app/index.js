@@ -9,6 +9,7 @@ import Cart from "screens/cart";
 import AuthForm from "screens/login";
 import ProductDetails from "screens/productDetail";
 import Checkout from "screens/checkout";
+import PaymentPage from "screens/checkout/PaymentPage";
 import { useDispatch } from "react-redux";
 import { setProductColors, setProductSize } from "store/productSlice";
 import { ItemsProvider } from "context/itemsContext";
@@ -50,6 +51,7 @@ function App() {
             <Route path="/signIn" element={<AuthForm />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/checkout/payment" element={<PaymentPage />} />
             <Route path="/orders" element={<ProtectedRoute setShowLogin={setShowLogin}><OrderHistory /></ProtectedRoute>} />
             <Route path="/productDetail" element={<ProductDetails />} />
             <Route path="/profile" element={<ProtectedRoute setShowLogin={setShowLogin}><Profile /></ProtectedRoute>} />

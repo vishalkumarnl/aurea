@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styles from "./product.module.css";
+  import { getFirstImage } from "utils";
+
 
 export default function ProductDetail() {
   const [mainImage, setMainImage] = useState("");
@@ -152,6 +154,7 @@ export default function ProductDetail() {
   }, [reviews]);
 
   const totalReviews = reviews.length;
+
   useEffect(() => {
     fetch(`http://localhost:8080/product/${product_id}`)
       .then((res) => res.json())
@@ -165,8 +168,8 @@ export default function ProductDetail() {
           setProductvariants(data);
           setSelectedColor(data[0].color_id);
           setSelectedSize(data[0].size_id);
-          data[0].images.split(" ")[0] &&
-            setMainImage(data[0].images.split(" ")[0]);
+          const firstImg = getFirstImage(data[0].images);
+          firstImg && setMainImage(firstImg);
         }
       });
   }, [product_id]);
